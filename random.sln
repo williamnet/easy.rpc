@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 5.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "random", "random\random.csproj", "{71A65E87-2BFB-4F51-B5FF-1B74AA9EF482}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomTest", "RandomTest\RandomTest.csproj", "{6D7DDD5D-D0B9-4759-84D4-5326CBEB4B21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71A65E87-2BFB-4F51-B5FF-1B74AA9EF482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71A65E87-2BFB-4F51-B5FF-1B74AA9EF482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71A65E87-2BFB-4F51-B5FF-1B74AA9EF482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71A65E87-2BFB-4F51-B5FF-1B74AA9EF482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D7DDD5D-D0B9-4759-84D4-5326CBEB4B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D7DDD5D-D0B9-4759-84D4-5326CBEB4B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D7DDD5D-D0B9-4759-84D4-5326CBEB4B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D7DDD5D-D0B9-4759-84D4-5326CBEB4B21}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
