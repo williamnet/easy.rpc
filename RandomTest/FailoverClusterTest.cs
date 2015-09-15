@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using LoadBalance;
-using Cluster;
+using Easy.Rpc.LoadBalance;
+using Easy.Rpc.Cluster;
 namespace RandomTest
 {
 	[TestFixture]

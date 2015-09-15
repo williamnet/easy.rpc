@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using NUnit.Framework;
-using LoadBalance;
+using Easy.Rpc.LoadBalance;
 namespace RandomTest
 {
 	[TestFixture]

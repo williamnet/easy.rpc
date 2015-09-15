@@ -1,7 +1,7 @@
 ﻿
 using System;
 using NUnit.Framework;
-using LoadBalance;
+using Easy.Rpc.LoadBalance;
 using System.Collections.Generic;
 using System.Diagnostics;
 namespace RandomTest

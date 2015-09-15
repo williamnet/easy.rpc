@@ -8,7 +8,7 @@
  */
 using System;
 using NUnit.Framework;
-using LoadBalance;
+using Easy.Rpc.LoadBalance;
 namespace RandomTest
 {
 	[TestFixture]
