@@ -38,7 +38,8 @@ namespace Cluster
 			for (var i = 0; i <= this.Retries; i++) 
 			{
 				retries++;
-				try {
+				try 
+				{
 					IList<Node> thisInvokeNodes = nodes.Except(invokedNodes).ToList();
 					if (thisInvokeNodes.Count == 0) 
 					{

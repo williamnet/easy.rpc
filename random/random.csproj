@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cluster\FailoverCluster.cs" />
+    <Compile Include="Cluster\FailsafeCluster.cs" />
     <Compile Include="Cluster\ICluster.cs" />
     <Compile Include="Cluster\Invoker.cs" />
     <Compile Include="LoadBalance\AtomicPositiveInteger.cs" />
