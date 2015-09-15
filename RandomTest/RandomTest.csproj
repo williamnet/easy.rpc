@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AtomicPositiveIntegerTest.cs" />
     <Compile Include="FailoverClusterTest.cs" />
+    <Compile Include="ForkingClusterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomBalanceTest.cs" />
     <Compile Include="RoundRobinLoadBalanceTest.cs" />

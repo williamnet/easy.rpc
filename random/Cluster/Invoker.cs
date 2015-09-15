@@ -5,19 +5,17 @@ namespace Cluster
 {
 	public abstract class Invoker<T>
 	{
-		public Invoker(object model, IDictionary<string, object> attachment)
+		protected Invoker(object model, IDictionary<string, object> attachment)
 		{
 			this.Model = model;
 			this.Attachment = attachment;
 		}
 		
-		public Object Model
-		{
+		public Object Model {
 			get;
 			private set;
 		}
-		public IDictionary<String,Object> Attachment
-		{
+		public IDictionary<String,Object> Attachment {
 			get;
 			private set;
 		}

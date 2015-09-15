@@ -27,7 +27,7 @@ namespace RandomTest
 			
 			var randomBalance = new RandomBalance();
 			
-			for (var i = 0; i < 1000; i++) {
+			for (var i = 0; i < 10000; i++) {
 				Node node = randomBalance.Select(list, string.Empty);
 				
 				if (node == node3) {

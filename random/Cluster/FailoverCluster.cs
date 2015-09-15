@@ -35,14 +35,11 @@ namespace Cluster
 			IList<Node> invokedNodes = new List<Node>();
 
 			int retries = -1;
-			for (var i = 0; i <= this.Retries; i++) 
-			{
+			for (var i = 0; i <= this.Retries; i++) {
 				retries++;
-				try 
-				{
+				try {
 					IList<Node> thisInvokeNodes = nodes.Except(invokedNodes).ToList();
-					if (thisInvokeNodes.Count == 0) 
-					{
+					if (thisInvokeNodes.Count == 0) {
 						thisInvokeNodes = nodes;
 					}
 					Node node = loadbanlance.Select(thisInvokeNodes, nodeGroupName);
@@ -50,11 +47,8 @@ namespace Cluster
 					invokedNodes.Add(node);
 					
 					return invoker.DoInvoke(node);
-				} 
-				catch (Exception) 
-				{
-					if (retries >= this.Retries) 
-					{
+				} catch (Exception) {
+					if (retries >= this.Retries) {
 						throw;
 					}
 				}
