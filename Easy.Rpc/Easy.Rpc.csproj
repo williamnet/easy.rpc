@@ -66,6 +66,10 @@
     <Compile Include="Cluster\IInvoker.cs" />
     <Compile Include="Cluster\Invoker.cs" />
     <Compile Include="Directory\Directory.cs" />
+    <Compile Include="Directory\DirectoryFactory.cs" />
+    <Compile Include="Directory\IDirectory.cs" />
+    <Compile Include="Directory\StaticDirectory.cs" />
+    <Compile Include="Exception\DirectoryNotFoundException.cs" />
     <Compile Include="Exception\NodeNoFoundException.cs" />
     <Compile Include="Exception\PathNotFoundException.cs" />
     <Compile Include="LoadBalanceAttribute.cs" />

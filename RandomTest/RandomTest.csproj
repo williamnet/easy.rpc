@@ -57,12 +57,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomBalanceTest.cs" />
     <Compile Include="RoundRobinLoadBalanceTest.cs" />
+    <Compile Include="StaticDirectoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Easy.Rpc\Easy.Rpc.csproj">
       <Project>{633CC7EA-776E-4797-839C-DE5B5E4B864C}</Project>
       <Name>Easy.Rpc</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="rpc.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="rpc2.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

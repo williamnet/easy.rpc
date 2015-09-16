@@ -31,7 +31,7 @@ namespace RandomTest
 			Assert.AreEqual("ok", result);
 			
 		}
-		[Path("/oder/create","a")]
+		[Path("StaticDirectory","order","/oder/create")]
 		class TestInvoker:Invoker<String>
 		{
 			

@@ -26,7 +26,8 @@ namespace Easy.Rpc
 				throw new PathNotFoundException("path attri error");
 			}
 			
-			IList<Node> nodes = Directory.GetNodes(pathAttri.Provider);
+			IList<Node> nodes = DirectoryFactory.GetDirectory(pathAttri.Directory).GetNodes(pathAttri.Provider);
+			
 			if (nodes.Count == 0) {
 				throw new NodeNoFoundException("node length is 0");
 			}
