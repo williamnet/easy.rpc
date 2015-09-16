@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Easy.Rpc.LoadBalance;
 namespace Easy.Rpc.Cluster
 {
-	public abstract class Invoker<T>
+	public abstract class Invoker<T>:IInvoker<T>
 	{
 		protected Invoker(object model, IDictionary<string, object> attachment)
 		{
@@ -20,6 +20,8 @@ namespace Easy.Rpc.Cluster
 			private set;
 		}
 		
-		public abstract T DoInvoke(Node node);
+		public abstract T DoInvoke(Node node, string path);
+
+		public abstract String JoinURL(Node node, string path);
 	}
 }

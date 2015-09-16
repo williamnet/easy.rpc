@@ -6,7 +6,13 @@ namespace Easy.Rpc.LoadBalance
 	{
 		private readonly Random random = new Random();
 		
-		public Node Select(IList<Node> nodes,string nodeGroupName)
+		public const string NAME ="RandomBalance";
+		
+		public String Name(){
+			return NAME;
+		}
+		
+		public Node Select(IList<Node> nodes,string path)
 		{
 			Int32 length = nodes.Count;
 			Int32 totalWeight = 0;

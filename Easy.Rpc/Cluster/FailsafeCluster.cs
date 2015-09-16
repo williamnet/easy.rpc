@@ -8,12 +8,19 @@ namespace Easy.Rpc.Cluster
 	/// </summary>
 	public class FailsafeCluster : ICluster
 	{
-		public T Invoke<T>(IList<Node> nodes, string nodeGroupName, ILoadBalance loadbanlance, Invoker<T> invoker)
+		public const string NAME ="FailsafeCluster";
+		
+		public String Name()
 		{
-			Node node = loadbanlance.Select(nodes, nodeGroupName);
+			return NAME;
+		}
+		
+		public T Invoke<T>(IList<Node> nodes, string path, ILoadBalance loadbanlance, IInvoker<T> invoker)
+		{
+			Node node = loadbanlance.Select(nodes, path);
 			
 			try {
-				return invoker.DoInvoke(node);	
+				return invoker.DoInvoke(node,path);	
 			} catch {
 			}
 			

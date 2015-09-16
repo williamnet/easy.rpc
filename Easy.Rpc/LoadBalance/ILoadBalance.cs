@@ -15,6 +15,7 @@ namespace Easy.Rpc.LoadBalance
 	/// </summary>
 	public interface ILoadBalance
 	{
+		String Name();
 		Node Select(IList<Node> nodes,string nodeGroupName);
 	}
 }

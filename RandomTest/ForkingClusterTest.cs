@@ -14,8 +14,8 @@ namespace RandomTest
 		{
 			IList<Node> nodes = new List<Node>();
 			
-			Node node1 = new Node("http://a", 100, true);
-			Node node2 = new Node("http://b", 100, true);
+			Node node1 = new Node("a","http://a", 100, true);
+			Node node2 = new Node("a","http://b", 100, true);
 			
 			nodes.Add(node1);
 			nodes.Add(node2);
@@ -34,9 +34,15 @@ namespace RandomTest
 			{
 				
 			}
-			
+
+			#region implemented abstract members of Invoker
+			public override string JoinURL(Node node, string path)
+			{
+				return node.Url+ path;
+			}
+			#endregion			
 		
-			public override String DoInvoke(Node node)
+			public override String DoInvoke(Node node,string path)
 			{
 				System.Diagnostics.Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
 				

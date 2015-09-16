@@ -10,9 +10,17 @@ namespace Easy.Rpc.LoadBalance
 		
 		private readonly ConcurrentDictionary<String,AtomicPositiveInteger> weightSequences = new ConcurrentDictionary<String, AtomicPositiveInteger>();
 		
+		public const string NAME ="RoundRobinLoadBalance";
 		
-		public Node Select(IList<Node> nodes, string nodeGroupName)
+		public String Name(){
+			return NAME;
+		}
+		
+		
+		public Node Select(IList<Node> nodes, string path)
 		{
+			string key = nodes[0].Url + path;
+			
 			int length = nodes.Count;
 			int maxWeight = 0;
 			int minWeight = int.MaxValue;
@@ -27,7 +35,7 @@ namespace Easy.Rpc.LoadBalance
 				
 			if (maxWeight > 0 && maxWeight != minWeight) 
 			{
-				AtomicPositiveInteger weightSequence = weightSequences.GetOrAdd(nodeGroupName, new AtomicPositiveInteger());
+				AtomicPositiveInteger weightSequence = weightSequences.GetOrAdd(key, new AtomicPositiveInteger());
 				
 				int currentWeight = weightSequence.GetAndIncrement() % maxWeight;
 				IList<Node> weightNodes = new List<Node>();
@@ -50,7 +58,7 @@ namespace Easy.Rpc.LoadBalance
 				}
 			}
 			
-			AtomicPositiveInteger sequence = sequences.GetOrAdd(nodeGroupName, new AtomicPositiveInteger());
+			AtomicPositiveInteger sequence = sequences.GetOrAdd(key, new AtomicPositiveInteger());
 			return nodes[sequence.GetAndIncrement() % length];
 		}
 	}

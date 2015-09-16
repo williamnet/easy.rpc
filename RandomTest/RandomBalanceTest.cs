@@ -3,7 +3,6 @@ using System;
 using NUnit.Framework;
 using Easy.Rpc.LoadBalance;
 using System.Collections.Generic;
-using System.Diagnostics;
 namespace RandomTest
 {
 	[TestFixture]
@@ -12,9 +11,9 @@ namespace RandomTest
 		[Test]
 		public void RandomBalanceSelectTest()
 		{
-			var node1 = new Node("http://www.baidu.com?node=1&weight=5", 5, true);
-			var node2 = new Node("http://www.baidu.com?node=2&weight=10", 10, true);
-			var node3 = new Node("http://www.baidu.com?node=3&weight=20", 20, true);
+			var node1 = new Node("a","http://www.baidu.com?node=1&weight=5", 5, true);
+			var node2 = new Node("a","http://www.baidu.com?node=2&weight=10", 10, true);
+			var node3 = new Node("a","http://www.baidu.com?node=3&weight=20", 20, true);
 			
 			var list = new List<Node>();
 			list.Add(node1);

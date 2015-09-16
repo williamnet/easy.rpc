@@ -9,6 +9,8 @@ namespace Easy.Rpc.Cluster
 	/// </summary>
 	public interface ICluster
 	{
-		T Invoke<T>(IList<Node> nodes, string nodeGroupName, ILoadBalance loadbanlance,Invoker<T> invoker);
+		String Name();
+		
+		T Invoke<T>(IList<Node> nodes, string path, ILoadBalance loadbanlance,IInvoker<T> invoker);
 	}
 }

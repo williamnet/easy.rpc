@@ -11,6 +11,13 @@ namespace Easy.Rpc.Cluster
 	/// </summary>
 	public class ForkingCluster:ICluster
 	{
+		public const string NAME ="ForkingCluster";
+		
+		public String Name()
+		{
+			return NAME;
+		}
+		
 		public ForkingCluster(int forks, int timeout = 1000)
 		{
 			this.Forks = forks;
@@ -23,15 +30,15 @@ namespace Easy.Rpc.Cluster
 		}
 		public int Timeout {
 			get;
-			private set;
+			set;
 		}
 		
 		public int Forks {
 			get;
-			private set;
+			set;
 		}
 		
-		public T Invoke<T>(IList<Node> nodes, string nodeGroupName, ILoadBalance loadbanlance, Invoker<T> invoker)
+		public T Invoke<T>(IList<Node> nodes, string path, ILoadBalance loadbanlance, IInvoker<T> invoker)
 		{
 			IList<Node> selected;
 			if (this.Forks <= 0 || this.Forks >= nodes.Count) {
@@ -40,7 +47,7 @@ namespace Easy.Rpc.Cluster
 				selected = new List<Node>();
 				
 				for (var i = 0; i < this.Forks; i++) {
-					Node node = loadbanlance.Select(nodes, nodeGroupName);
+					Node node = loadbanlance.Select(nodes, path);
 					
 					if (!selected.Contains(node)) {
 						selected.Add(node);
@@ -50,7 +57,7 @@ namespace Easy.Rpc.Cluster
 			var tasks = new List<Task>();
 			foreach (Node node in selected) {
 				
-				var task = Task.Factory.StartNew<T>(() => invoker.DoInvoke(node));
+				var task = Task.Factory.StartNew<T>(() => invoker.DoInvoke(node,path));
 				
 				tasks.Add(task);
 			}

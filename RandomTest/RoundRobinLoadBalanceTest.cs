@@ -19,11 +19,11 @@ namespace RandomTest
 		[Test]
 		public void TestMethod()
 		{
-			var node1 = new Node("http://www.baidu.com?node=1&weight=100", 5, true);
-			var node2 = new Node("http://www.baidu.com?node=2&weight=100", 10, true);
-			var node3 = new Node("http://www.baidu.com?node=3&weight=200", 5, true);
-			var node4 = new Node("http://www.baidu.com?node=4&weight=200", 30, true);
-			var node5 = new Node("http://www.baidu.com?node=5&weight=200", 100, true);
+			var node1 = new Node("a","http://www.baidu.com?node=1&weight=100", 5, true);
+			var node2 = new Node("a","http://www.baidu.com?node=2&weight=100", 10, true);
+			var node3 = new Node("a","http://www.baidu.com?node=3&weight=200", 5, true);
+			var node4 = new Node("a","http://www.baidu.com?node=4&weight=200", 30, true);
+			var node5 = new Node("a","http://www.baidu.com?node=5&weight=200", 100, true);
 			
 			var list = new List<Node>();
 			list.Add(node1);

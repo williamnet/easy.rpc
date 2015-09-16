@@ -13,10 +13,17 @@ namespace Easy.Rpc.Cluster
 	/// </summary>
 	public class FailoverCluster:ICluster
 	{
+		public const string NAME ="FailoverCluster";
 		public FailoverCluster(int retries)
 		{
 			this.Retries = retries;
 		}
+		
+		public String Name()
+		{
+			return NAME;
+		}
+		
 		public FailoverCluster()
 		{
 			this.Retries = 2;
@@ -27,10 +34,10 @@ namespace Easy.Rpc.Cluster
 		/// </summary>
 		public int Retries {
 			get;
-			private set;
+			set;
 		}
 		
-		public T Invoke<T>(IList<Node> nodes, string nodeGroupName, ILoadBalance loadbanlance, Invoker<T> invoker)
+		public T Invoke<T>(IList<Node> nodes, string path, ILoadBalance loadbanlance, IInvoker<T> invoker)
 		{
 			IList<Node> invokedNodes = new List<Node>();
 
@@ -42,12 +49,12 @@ namespace Easy.Rpc.Cluster
 					if (thisInvokeNodes.Count == 0) {
 						thisInvokeNodes = nodes;
 					}
-					Node node = loadbanlance.Select(thisInvokeNodes, nodeGroupName);
+					Node node = loadbanlance.Select(thisInvokeNodes, path);
 					
 					invokedNodes.Add(node);
 					
-					return invoker.DoInvoke(node);
-				} catch (Exception) {
+					return invoker.DoInvoke(node,path);
+				} catch (System.Exception) {
 					if (retries >= this.Retries) {
 						throw;
 					}

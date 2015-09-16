@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Easy.Rpc.LoadBalance;
 using Easy.Rpc.Cluster;
+using Easy.Rpc;
 namespace RandomTest
 {
 	[TestFixture]
@@ -14,21 +15,23 @@ namespace RandomTest
 		{
 			IList<Node> nodes = new List<Node>();
 			
-			Node node1 = new Node("http://wwadfad.com", 100, true);
-			Node node2 = new Node("http://sdfdslf.com", 100, true);
-			Node node3 = new Node("http://sdfdaaaaaslf.com", 100, true);
+			Node node1 = new Node("a","http://wwadfad.com", 100, true);
+			Node node2 = new Node("a","http://sdfdslf.com", 100, true);
+			Node node3 = new Node("a","http://sdfdaaaaaslf.com", 100, true);
 			
 			nodes.Add(node1);
 			nodes.Add(node2);
 			nodes.Add(node3);
 			
 			
+			ClientFactory.Invoke(new TestInvoker(null,null));
+			
 			string result = new FailoverCluster().Invoke<String>(nodes, "a", new RandomBalance(), new TestInvoker(null, null));
 			
 			Assert.AreEqual("ok", result);
 			
 		}
-		
+		[Path("/oder/create","a")]
 		class TestInvoker:Invoker<String>
 		{
 			
@@ -38,8 +41,14 @@ namespace RandomTest
 			{
 				
 			}
-			
-			public override String DoInvoke(Node node)
+
+			#region implemented abstract members of Invoker
+			public override string JoinURL(Node node, string path)
+			{
+				return node.Url + path;
+			}
+			#endregion			
+			public override String DoInvoke(Node node,string path)
 			{
 				System.Diagnostics.Debug.WriteLine("调用次数："+ i);
 				System.Diagnostics.Debug.WriteLine("调用的URL："+ node.Url);
