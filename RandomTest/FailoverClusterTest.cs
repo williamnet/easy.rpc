@@ -1,6 +1,8 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
 using NUnit.Framework;
 using Easy.Rpc.LoadBalance;
 using Easy.Rpc.Cluster;
@@ -12,26 +14,21 @@ namespace RandomTest
 	{
 		[Test]
 		public void FailoverClusterRetryTest()
-		{
-			IList<Node> nodes = new List<Node>();
+		{			
+			for (int i = 0; i < 100; i++) {
+				Task.Factory.StartNew(() => { 
+					String result = ClientFactory.Invoke(new TestInvoker(null, null));
+					System.Diagnostics.Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
+					Assert.AreEqual("ok", result);
+				                      
+				});
+			}
 			
-			Node node1 = new Node("a","http://wwadfad.com", 100, true);
-			Node node2 = new Node("a","http://sdfdslf.com", 100, true);
-			Node node3 = new Node("a","http://sdfdaaaaaslf.com", 100, true);
-			
-			nodes.Add(node1);
-			nodes.Add(node2);
-			nodes.Add(node3);
-			
-			
-			ClientFactory.Invoke(new TestInvoker(null,null));
-			
-			string result = new FailoverCluster().Invoke<String>(nodes, "a", new RandomBalance(), new TestInvoker(null, null));
-			
-			Assert.AreEqual("ok", result);
-			
+			Thread.Sleep(10000);
 		}
-		[Path("StaticDirectory","order","/oder/create")]
+		[Path("StaticDirectory", "order", "/oder/create")]
+		[Cluster(FailoverCluster.NAME)]
+		[LoadBalance(RandomBalance.NAME)]
 		class TestInvoker:Invoker<String>
 		{
 			
@@ -47,11 +44,13 @@ namespace RandomTest
 			{
 				return node.Url + path;
 			}
-			#endregion			
-			public override String DoInvoke(Node node,string path)
+			#endregion
+			public override String DoInvoke(Node node, string path)
 			{
-				System.Diagnostics.Debug.WriteLine("调用次数："+ i);
-				System.Diagnostics.Debug.WriteLine("调用的URL："+ node.Url);
+				System.IO.File.AppendAllText(@"F:\a.txt",node.Url+"\r\n");
+				
+				System.Diagnostics.Debug.WriteLine("调用次数：" + i);
+				System.Diagnostics.Debug.WriteLine("调用的URL：" + node.Url);
 				
 				if (i == 0 || i == 1) {
 					i++;
