@@ -33,26 +33,21 @@ namespace Easy.Rpc.LoadBalance
 				minWeight = Math.Min(weight, minWeight);
 			}
 				
-			if (maxWeight > 0 && maxWeight != minWeight) 
-			{
+			if (maxWeight > 0 && maxWeight != minWeight) {
 				AtomicPositiveInteger weightSequence = weightSequences.GetOrAdd(key, new AtomicPositiveInteger());
 				
 				int currentWeight = weightSequence.GetAndIncrement() % maxWeight;
 				IList<Node> weightNodes = new List<Node>();
-				foreach (var node in nodes) 
-				{
-					if (node.Weight > currentWeight) 
-					{
+				foreach (var node in nodes) {
+					if (node.Weight > currentWeight) {
 						weightNodes.Add(node);
 					}
 				}
 				int weightLength = weightNodes.Count;
-				if (weightLength == 1) 
-				{
+				if (weightLength == 1) {
 					return weightNodes[0];
 				}
-				else if (weightLength > 1)
-				{
+				if (weightLength > 1) {
 					nodes = weightNodes;
 					length = nodes.Count;
 				}

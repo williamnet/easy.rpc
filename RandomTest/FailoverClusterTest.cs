@@ -15,23 +15,24 @@ namespace RandomTest
 		[Test]
 		public void FailoverClusterRetryTest()
 		{			
-			for (int i = 0; i < 100; i++) {
-				Task.Factory.StartNew(() => { 
+			
+			Task.Factory.StartNew(() => { 
+				for (int i = 0; i < 10000; i++) {
 					String result = ClientFactory.Invoke(new TestInvoker(null, null));
 					System.Diagnostics.Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
 					Assert.AreEqual("ok", result);
-				                      
-				});
-			}
+				}       
+			});
 			
-			Thread.Sleep(10000);
+			
+			Thread.Sleep(20000);
 		}
 		[Path("StaticDirectory", "order", "/oder/create")]
 		[Cluster(FailoverCluster.NAME)]
-		[LoadBalance(RandomBalance.NAME)]
+		[LoadBalance(RoundRobinLoadBalance.NAME)]
 		class TestInvoker:Invoker<String>
 		{
-			
+			static readonly object lockobject = new object();
 			private int i = 0;
 			public TestInvoker(object model, IDictionary<string, object> attachment)
 				: base(model, attachment)
@@ -47,7 +48,9 @@ namespace RandomTest
 			#endregion
 			public override String DoInvoke(Node node, string path)
 			{
-				System.IO.File.AppendAllText(@"F:\a.txt",node.Url+"\r\n");
+				lock (lockobject) {
+					System.IO.File.AppendAllText(@"F:\a.txt", node.Url + "\r\n");
+				}
 				
 				System.Diagnostics.Debug.WriteLine("调用次数：" + i);
 				System.Diagnostics.Debug.WriteLine("调用的URL：" + node.Url);
