@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
+using Easy.Rpc.directory;
 using NUnit.Framework;
 using Easy.Rpc.LoadBalance;
 using Easy.Rpc.Cluster;
@@ -27,7 +28,7 @@ namespace RandomTest
 			
 			Thread.Sleep(20000);
 		}
-		[Path("StaticDirectory", "order", "/oder/create")]
+		[Path(StaticDirectory.NAME, "order", "/create")]
 		[Cluster(FailoverCluster.NAME)]
 		[LoadBalance(RoundRobinLoadBalance.NAME)]
 		class TestInvoker:Invoker<String>
