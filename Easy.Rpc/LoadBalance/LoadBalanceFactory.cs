@@ -6,22 +6,23 @@ namespace Easy.Rpc.LoadBalance
 
 	public class LoadBalanceFactory
 	{
-		private readonly static IDictionary<String,Type> LoadBalance =new Dictionary<String,Type>();
+		private readonly static IDictionary<String,ILoadBalance> LoadBalance = new Dictionary<String,ILoadBalance>();
 		
 		private LoadBalanceFactory()
 		{
 		}
 		static LoadBalanceFactory()
 		{
-			LoadBalance.Add(RandomBalance.NAME,typeof(RandomBalance));
-			LoadBalance.Add(RoundRobinLoadBalance.NAME,typeof(RoundRobinLoadBalance));
+			LoadBalance.Add(RandomBalance.NAME, new RandomBalance());
+			LoadBalance.Add(RoundRobinLoadBalance.NAME, new RoundRobinLoadBalance());
 		}
 
-		public static ILoadBalance GetLoadBalance(String name){
-			if(LoadBalance.ContainsKey(name)){
-				return Activator.CreateInstance( LoadBalance[name]) as ILoadBalance;
+		public static ILoadBalance GetLoadBalance(String name)
+		{
+			if (LoadBalance.ContainsKey(name)) {
+				return LoadBalance[name];
 			}
-			throw new KeyNotFoundException("loadbalance"+name +" == null");
+			throw new KeyNotFoundException("loadbalance" + name + " == null");
 		}
 	}
 }

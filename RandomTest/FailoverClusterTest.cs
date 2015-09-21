@@ -34,7 +34,7 @@ namespace RandomTest
 		class TestInvoker:Invoker<String>
 		{
 			static readonly object lockobject = new object();
-			private int i = 0;
+			
 			public TestInvoker(object model, IDictionary<string, object> attachment)
 				: base(model, attachment)
 			{
@@ -52,23 +52,8 @@ namespace RandomTest
 				lock (lockobject) {
 					System.IO.File.AppendAllText(@"F:\a.txt", node.Url + "\r\n");
 				}
-				
-				System.Diagnostics.Debug.WriteLine("调用次数：" + i);
-				System.Diagnostics.Debug.WriteLine("调用的URL：" + node.Url);
-				
-				if (i == 0 || i == 1) {
-					i++;
-					throw new Exception();
-				}
-				
-				if (i == 2) {
-					return "ok";
-				}
-				
-				
-				return string.Empty;
+				return "ok";
 			}
-				
 		}
 	}
 }

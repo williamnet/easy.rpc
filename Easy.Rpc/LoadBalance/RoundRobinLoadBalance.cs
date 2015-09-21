@@ -19,7 +19,7 @@ namespace Easy.Rpc.LoadBalance
 		
 		public Node Select(IList<Node> nodes, string path)
 		{
-			string key = nodes[0].Url + path;
+			string key = nodes[0].ProviderName + path;
 			
 			int length = nodes.Count;
 			int maxWeight = 0;

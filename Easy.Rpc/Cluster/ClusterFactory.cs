@@ -22,7 +22,7 @@ namespace Easy.Rpc.Cluster
 			if (CLUSTERS.ContainsKey(name)) {
 				return Activator.CreateInstance(CLUSTERS[name]) as ICluster;
 			}
-			throw new KeyNotFoundException("cluser"+name +" == null");
+			throw new KeyNotFoundException("cluser" + name + " == null");
 		}
 	}
 }
