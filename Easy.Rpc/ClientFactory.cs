@@ -41,7 +41,7 @@ namespace Easy.Rpc
 		{
 			ILoadBalance loadBalance = null;
 			if (attri == null) {
-				loadBalance = LoadBalanceFactory.GetLoadBalance(RandomBalance.NAME);
+				loadBalance = LoadBalanceFactory.GetLoadBalance(RandomLoadBalance.NAME);
 			} else {
 				loadBalance = LoadBalanceFactory.GetLoadBalance(attri.Name);
 			}

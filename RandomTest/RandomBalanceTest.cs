@@ -24,7 +24,7 @@ namespace RandomTest
 			int node2Count = 0;
 			int node3Count = 0;
 			
-			var randomBalance = new RandomBalance();
+			var randomBalance = new RandomLoadBalance();
 			
 			for (var i = 0; i < 10000; i++) {
 				Node node = randomBalance.Select(list, string.Empty);

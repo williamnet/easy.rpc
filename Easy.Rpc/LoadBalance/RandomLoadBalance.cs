@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace Easy.Rpc.LoadBalance
 {
-	public class RandomBalance:ILoadBalance
+	public class RandomLoadBalance:ILoadBalance
 	{
 		private readonly Random random = new Random();
 		

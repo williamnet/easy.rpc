@@ -13,7 +13,7 @@ namespace Easy.Rpc.LoadBalance
 		}
 		static LoadBalanceFactory()
 		{
-			LoadBalance.Add(RandomBalance.NAME, new RandomBalance());
+			LoadBalance.Add(RandomLoadBalance.NAME, new RandomLoadBalance());
 			LoadBalance.Add(RoundRobinLoadBalance.NAME, new RoundRobinLoadBalance());
 		}
 

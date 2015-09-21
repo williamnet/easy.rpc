@@ -22,7 +22,7 @@ namespace RandomTest
 			
 			var forkcluster = new ForkingCluster(2,3000);
 			
-			string result = forkcluster.Invoke(nodes, "a", new RandomBalance(), new TestInvoker(null, null));
+			string result = forkcluster.Invoke(nodes, "a", new RandomLoadBalance(), new TestInvoker(null, null));
 			
 			Assert.AreEqual("http://a",result);
 		}
