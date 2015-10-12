@@ -8,7 +8,9 @@ using Easy.Rpc.LoadBalance;
 
 namespace Easy.Rpc.directory
 {
-
+	/// <summary>
+	/// 地址调用目录服务
+	/// </summary>
 	public class StaticDirectory:IDirectory
 	{
 		public const String NAME = "StaticDirectory";
@@ -49,6 +51,11 @@ namespace Easy.Rpc.directory
 		{
 			return NAME;
 		}
+		/// <summary>
+		/// 获得调用节点
+		/// </summary>
+		/// <param name="providerName"></param>
+		/// <returns></returns>
 		public IList<Node> GetNodes(string providerName)
 		{
 			cacheLock.EnterReadLock();
@@ -59,6 +66,10 @@ namespace Easy.Rpc.directory
 				cacheLock.ExitReadLock();
 			}
 		}
+		/// <summary>
+		/// 刷新节点信息
+		/// </summary>
+		/// <param name="file"></param>
 		public void Refresh(string file = null)
 		{
 			cacheLock.EnterWriteLock();
