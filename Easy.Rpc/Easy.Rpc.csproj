@@ -83,7 +83,7 @@
     <Compile Include="LoadBalance\Node.cs" />
     <Compile Include="LoadBalance\RandomLoadBalance.cs" />
     <Compile Include="LoadBalance\RoundRobinLoadBalance.cs" />
-    <Compile Include="PathAttribute.cs" />
+    <Compile Include="DirectoryAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

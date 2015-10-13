@@ -10,24 +10,19 @@ namespace Easy.Rpc.directory
 		DirectoryFactory()
 		{
 		}
-		
-		static DirectoryFactory()
-		{
-			Directory.Add(StaticDirectory.NAME, new StaticDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rpc.config")));
-		}
 		/// <summary>
 		/// 清理目录
 		/// </summary>
-		public void Clear()
+		public static void Clear()
 		{
 			Directory.Clear();
 		}
 		/// <summary>
 		/// 注册新目录
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="directory"></param>
-		public void Register(string name, IDirectory directory)
+		/// <param name="name">服务名称</param>
+		/// <param name="directory">目录对象</param>
+		public static void Register(string name, IDirectory directory)
 		{
 			if (!Directory.ContainsKey(name)) {
 				Directory.Add(name, directory);
@@ -37,7 +32,7 @@ namespace Easy.Rpc.directory
 		/// 获得全部目录
 		/// </summary>
 		/// <returns></returns>
-		public IDirectory[] GetDirectories(){
+		public static IDirectory[] GetDirectories(){
 			return Directory.Values.ToArray();
 		}
 		/// <summary>

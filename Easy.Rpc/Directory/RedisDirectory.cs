@@ -11,7 +11,7 @@ namespace Easy.Rpc.directory
 	/// Redis实现目录服务
 	/// </summary>
 	public class RedisDirectory:IDirectory
-	{		
+	{
 		readonly ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
 		readonly IList<Node> nodes = new List<Node>();
 		readonly IRedis redis;
@@ -39,18 +39,18 @@ namespace Easy.Rpc.directory
 			return this.name;
 		}
 
-		public IList<Node> GetNodes(string providerName)
+		public IList<Node> GetNodes()
 		{
 			cacheLock.EnterReadLock();
 			try {
-				return nodes.Where(m =>m.IsAvailable).ToList();
+				return nodes.Where(m => m.IsAvailable).ToList();
 				
 			} finally {
 				cacheLock.ExitReadLock();
 			}
 		}
 
-		public void Refresh(string file = null)
+		public void Refresh()
 		{
 			throw new NotImplementedException();
 		}

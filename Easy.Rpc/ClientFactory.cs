@@ -16,17 +16,17 @@ namespace Easy.Rpc
 		{
 			Object[] attributes = invoker.GetType().GetCustomAttributes(true);
 			
-			var pathAttri = attributes.SingleOrDefault(a => a is PathAttribute) as PathAttribute;
+			var directoryAttri = attributes.SingleOrDefault(a => a is DirectoryAttribute) as DirectoryAttribute;
 			
 			var clusterAttri = attributes.SingleOrDefault(a => a is ClusterAttribute) as ClusterAttribute;
 			
 			var loadBalanceAttri = attributes.SingleOrDefault(a => a is LoadBalanceAttribute) as LoadBalanceAttribute;
 			
-			if (pathAttri == null) {
-				throw new PathNotFoundException("path attri error");
+			if (directoryAttri == null) {
+				throw new PathNotFoundException("directory attri error");
 			}
 			
-			IList<Node> nodes = DirectoryFactory.GetDirectory(pathAttri.Directory).GetNodes(pathAttri.Provider);
+			IList<Node> nodes = DirectoryFactory.GetDirectory(directoryAttri.Directory).GetNodes();
 			
 			if (nodes.Count == 0) {
 				throw new NodeNoFoundException("node length is 0");
@@ -35,7 +35,7 @@ namespace Easy.Rpc
 			ICluster cluster = GetCluster(clusterAttri);
 			ILoadBalance loadBalance = GetLoadBalance(loadBalanceAttri);
 			
-			return cluster.Invoke<T>(nodes, pathAttri.Path, loadBalance, invoker);
+			return cluster.Invoke<T>(nodes, directoryAttri.Path, loadBalance, invoker);
 		}
 		static ILoadBalance GetLoadBalance(LoadBalanceAttribute attri)
 		{

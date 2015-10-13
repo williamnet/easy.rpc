@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
@@ -13,15 +14,15 @@ namespace Easy.Rpc.directory
 	/// </summary>
 	public class StaticDirectory:IDirectory
 	{
-		public const String NAME = "StaticDirectory";
-		
 		readonly ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
-		String file;
+		readonly String file;
+		readonly String name;
 		readonly IList<Node> nodes = new List<Node>();
 		
-		public StaticDirectory(string file)
+		public StaticDirectory(string file, string name)
 		{
 			this.file = file;
+			this.name = name;
 			this.InitNodes();
 		}
 		
@@ -29,38 +30,41 @@ namespace Easy.Rpc.directory
 		{
 			nodes.Clear();
 			
+			String nodeName = Path.GetFileNameWithoutExtension(this.file);
+			
 			var document = new XPathDocument(file);
 			XPathNavigator navigator = document.CreateNavigator();
 			XPathNodeIterator it = navigator.Select("Rpc/Providers/Provider");
 			
 			foreach (XPathNavigator navi in it) {
-				String name = navi.GetAttribute("Name", "");
+				
 				Boolean available = Boolean.Parse(navi.GetAttribute("Available", ""));
 				Int32 weight = Int32.Parse(navi.GetAttribute("Weight", ""));
 				String url = navi.Value;
 				
-				var node = new Node(name, url, weight, available);
+				var node = new Node(nodeName, url, weight, available);
 				
 				nodes.Add(node);
 			}
 		}
 		
-		
-		#region IDirectory implementation
-		public string Name()
+		/// <summary>
+		/// 服务名称
+		/// </summary>
+		/// <returns></returns>
+		public String Name()
 		{
-			return NAME;
+			return this.name;
 		}
 		/// <summary>
 		/// 获得调用节点
 		/// </summary>
-		/// <param name="providerName"></param>
-		/// <returns></returns>
-		public IList<Node> GetNodes(string providerName)
+		/// <returns>返回可用的调用节点</returns>
+		public IList<Node> GetNodes()
 		{
 			cacheLock.EnterReadLock();
 			try {
-				return nodes.Where(m => m.ProviderName == providerName && m.IsAvailable).ToList();
+				return nodes.Where(m => m.IsAvailable).ToList();
 				
 			} finally {
 				cacheLock.ExitReadLock();
@@ -69,18 +73,14 @@ namespace Easy.Rpc.directory
 		/// <summary>
 		/// 刷新节点信息
 		/// </summary>
-		/// <param name="file"></param>
-		public void Refresh(string file = null)
+		public void Refresh()
 		{
 			cacheLock.EnterWriteLock();
 			try {
-				this.file = file ?? this.file;
 				this.InitNodes();
 			} finally {
 				cacheLock.ExitWriteLock();
 			}
 		}
-		#endregion
-		
 	}
 }
