@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using Easy.Rpc.directory;
@@ -15,7 +16,12 @@ namespace RandomTest
 	{
 		[Test]
 		public void FailoverClusterRetryTest()
-		{			
+		{	
+			
+			String rpc = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rpc.config");
+			StaticDirectory dir = new StaticDirectory(rpc, "order");
+			
+			DirectoryFactory.Register(dir.Name(), dir);
 			
 			Task.Factory.StartNew(() => { 
 				for (int i = 0; i < 10000; i++) {
@@ -28,7 +34,7 @@ namespace RandomTest
 			
 			Thread.Sleep(20000);
 		}
-		[Path(StaticDirectory.NAME, "order", "/create")]
+		[Directory("order", "/create")]
 		[Cluster(FailoverCluster.NAME)]
 		[LoadBalance(RoundRobinLoadBalance.NAME)]
 		class TestInvoker:Invoker<String>

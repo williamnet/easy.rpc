@@ -15,35 +15,43 @@ namespace RandomTest
 	public class RedisDirectoryTest
 	{
 		[Test]
-		public void TestMethod()
+		public void RedisNotifyTest()
 		{
 			Redis myRedis = new Redis("10.8.7.138:6379");
 			
+			string jsondata = this.GetNodes(true);
+			myRedis.UpdateNode("order", "order",jsondata);
+			
+			
+			
 			RedisDirectory rd = new RedisDirectory(myRedis, "order", "order", "order");
-			
-			IList<Node> nodes = rd.GetNodes(string.Empty);
-			
-			
-			
+			IList<Node> nodes = rd.GetNodes();
 			Assert.AreEqual(3, nodes.Count(m => m.IsAvailable));
 			
-			System.Threading.Thread.Sleep(90000);
+			jsondata = this.GetNodes(false);
 			
+			myRedis.UpdateNode("order", "order", jsondata);
+			System.Threading.Thread.Sleep(2000);
+			
+			Assert.AreEqual(0, rd.GetNodes().Count);
 		}
 		[Test]
 		public void GetDataTest()
 		{
-			
+			String jsondata = this.GetNodes(true);
+			new Redis("10.8.7.138:6379").UpdateNode("order", "order", jsondata);
+		}
+		
+		private String GetNodes(bool enable)
+		{
 			IList<Node> nodes = new List<Node>();
 			
-			nodes.Add(new Node("order", "http://aaa.order1", 100, true));
-			nodes.Add(new Node("order", "http://aaa.order2", 100, true));
-			nodes.Add(new Node("order", "http://aaa.order3", 100, true));
-			
-			
+			nodes.Add(new Node("order", "http://aaa.order1", 100, enable));
+			nodes.Add(new Node("order", "http://aaa.order2", 100, enable));
+			nodes.Add(new Node("order", "http://aaa.order3", 100, enable));
 			string strNodes = JsonConvert.SerializeObject(nodes, Formatting.None);
 			
-			
+			return strNodes;
 		}
 	}
 	
@@ -58,29 +66,23 @@ namespace RandomTest
 			redis = ConnectionMultiplexer.Connect(redisServer);
 		}
 		
-		public void UpdateNode(String node){
-			
-		}
-		
-		public void Publish(String channel)
+		public void UpdateNode(string channel, string key, String node)
 		{
+			redis.GetDatabase().StringSet(key, node);
 			redis.GetDatabase().Publish(channel, "");
+			
 		}
 		
 		public IList<Node> GetNodes(string key)
 		{
-			RedisValue[] values = redis.GetDatabase().ListRange(key);
+			RedisValue value = redis.GetDatabase().StringGet(key);
 			
-			IList<Node> nodes = new List<Node>();
-			foreach (var redisValue in values) {
-				if (redisValue.HasValue) {
-					
-					Node node = JsonConvert.DeserializeObject<Node>(redisValue.ToString());
-					nodes.Add(node);
-				}
+			if (value.HasValue) {
+				
+				IList<Node> nodes = JsonConvert.DeserializeObject<IList<Node>>(value.ToString());
+				return nodes;
 			}
-			
-			return nodes;
+			return new List<Node>(0);
 		}
 		public void Subscribe(Action<IList<Node>> action, string channel, string key)
 		{
