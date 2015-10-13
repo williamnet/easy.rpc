@@ -17,38 +17,44 @@ namespace RandomTest
 		[Test]
 		public void RedisNotifyTest()
 		{
-			Redis myRedis = new Redis("10.8.7.138:6379");
+			var myRedis = new Redis("10.8.7.138:6379");
 			
-			string jsondata = this.GetNodes(true);
-			myRedis.UpdateNode("order", "order",jsondata);
+			string data = this.GetNodes("product",true);
+			myRedis.UpdateNode("product","product",data);
+			
+			var rd1 = new RedisDirectory(myRedis, "product", "product", "product");
+			IList<Node> productNodes = rd1.GetNodes();
+			Assert.AreEqual(3, productNodes.Count(m => m.IsAvailable));
+			
+			data = this.GetNodes("product",false);
+			
+			myRedis.UpdateNode("product", "product", data);
+			System.Threading.Thread.Sleep(2000);
+			
+			Assert.AreEqual(0, rd1.GetNodes().Count);
 			
 			
+			string jsondata = this.GetNodes("order", true);
+			myRedis.UpdateNode("order", "order", jsondata);
 			
-			RedisDirectory rd = new RedisDirectory(myRedis, "order", "order", "order");
+			var rd = new RedisDirectory(myRedis, "order", "order", "order");
 			IList<Node> nodes = rd.GetNodes();
 			Assert.AreEqual(3, nodes.Count(m => m.IsAvailable));
 			
-			jsondata = this.GetNodes(false);
+			jsondata = this.GetNodes("order", false);
 			
 			myRedis.UpdateNode("order", "order", jsondata);
 			System.Threading.Thread.Sleep(2000);
 			
 			Assert.AreEqual(0, rd.GetNodes().Count);
 		}
-		[Test]
-		public void GetDataTest()
-		{
-			String jsondata = this.GetNodes(true);
-			new Redis("10.8.7.138:6379").UpdateNode("order", "order", jsondata);
-		}
-		
-		private String GetNodes(bool enable)
+		String GetNodes(string name, bool enable)
 		{
 			IList<Node> nodes = new List<Node>();
 			
-			nodes.Add(new Node("order", "http://aaa.order1", 100, enable));
-			nodes.Add(new Node("order", "http://aaa.order2", 100, enable));
-			nodes.Add(new Node("order", "http://aaa.order3", 100, enable));
+			nodes.Add(new Node(name, "http://aaa.order1", 100, enable));
+			nodes.Add(new Node(name, "http://aaa.order2", 100, enable));
+			nodes.Add(new Node(name, "http://aaa.order3", 100, enable));
 			string strNodes = JsonConvert.SerializeObject(nodes, Formatting.None);
 			
 			return strNodes;
