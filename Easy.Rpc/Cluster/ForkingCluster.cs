@@ -28,11 +28,16 @@ namespace Easy.Rpc.Cluster
 			this.Forks = 2;
 			this.Timeout = 10000;
 		}
+		/// <summary>
+		/// 调用超时时间
+		/// </summary>
 		public int Timeout {
 			get;
 			set;
 		}
-		
+		/// <summary>
+		/// 并行调用服务器的数量
+		/// </summary>
 		public int Forks {
 			get;
 			set;
