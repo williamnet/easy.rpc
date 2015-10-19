@@ -1,7 +1,7 @@
 ﻿
 using System;
 using Easy.Rpc.LoadBalance;
-namespace Easy.Rpc.Cluster
+namespace Easy.Rpc
 {
 	
 	public interface IInvoker<T>

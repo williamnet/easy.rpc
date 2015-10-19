@@ -7,9 +7,9 @@ using Easy.Rpc.Exception;
 using Easy.Rpc.directory;
 namespace Easy.Rpc
 {
-	public class ClientFactory
+	public class ClientInvoker
 	{
-		ClientFactory()
+		ClientInvoker()
 		{
 		}
 		public static T Invoke<T>(IInvoker<T> invoker)

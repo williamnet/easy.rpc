@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Easy.Rpc.LoadBalance;
-namespace Easy.Rpc.Cluster
+namespace Easy.Rpc
 {
 	public abstract class Invoker<T>:IInvoker<T>
 	{
