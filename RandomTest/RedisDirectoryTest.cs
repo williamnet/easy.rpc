@@ -17,16 +17,16 @@ namespace RandomTest
 		[Test]
 		public void RedisNotifyTest()
 		{
-			var myRedis = new Redis("10.8.7.138:6379");
+			var myRedis = new Redis("172.18.11.83:6379", 3);
 			
-			string data = this.GetNodes("product",true);
-			myRedis.UpdateNode("product","product",data);
+			string data = this.GetNodes("product", true);
+			myRedis.UpdateNode("product", "product", data);
 			
-			var rd1 = new RedisDirectory(myRedis, "product", "product", "product");
+			var rd1 = new RedisDirectory(myRedis, "product");
 			IList<Node> productNodes = rd1.GetNodes();
 			Assert.AreEqual(3, productNodes.Count(m => m.IsAvailable));
 			
-			data = this.GetNodes("product",false);
+			data = this.GetNodes("product", false);
 			
 			myRedis.UpdateNode("product", "product", data);
 			System.Threading.Thread.Sleep(2000);
@@ -37,7 +37,7 @@ namespace RandomTest
 			string jsondata = this.GetNodes("order", true);
 			myRedis.UpdateNode("order", "order", jsondata);
 			
-			var rd = new RedisDirectory(myRedis, "order", "order", "order");
+			var rd = new RedisDirectory(myRedis, "order");
 			IList<Node> nodes = rd.GetNodes();
 			Assert.AreEqual(3, nodes.Count(m => m.IsAvailable));
 			
@@ -65,23 +65,25 @@ namespace RandomTest
 	
 	public class Redis:Easy.Rpc.directory.IRedis
 	{
-		private readonly ConnectionMultiplexer redis;
+		readonly ConnectionMultiplexer redis;
+		int databaseid = 0;
 		
-		public Redis(string redisServer)
+		public Redis(string redisServer, int databaseId)
 		{
 			redis = ConnectionMultiplexer.Connect(redisServer);
+			this.databaseid = databaseId;
 		}
 		
 		public void UpdateNode(string channel, string key, String node)
 		{
-			redis.GetDatabase().StringSet(key, node);
-			redis.GetDatabase().Publish(channel, "");
+			redis.GetDatabase(databaseid).StringSet(key, node);
+			redis.GetDatabase(databaseid).Publish(channel, "");
 			
 		}
 		
-		public IList<Node> GetNodes(string key)
+		public IList<Node> GetNodes(string serviceName)
 		{
-			RedisValue value = redis.GetDatabase().StringGet(key);
+			RedisValue value = redis.GetDatabase(databaseid).StringGet(serviceName);
 			
 			if (value.HasValue) {
 				
@@ -90,12 +92,12 @@ namespace RandomTest
 			}
 			return new List<Node>(0);
 		}
-		public void Subscribe(Action<IList<Node>> action, string channel, string key)
+		public void Subscribe(Action<IList<Node>> action, string serviceName)
 		{
 			ISubscriber sub = redis.GetSubscriber();
 			
-			sub.Subscribe(channel, (c, m) => {
-				IList<Node> nodes = this.GetNodes(key);
+			sub.Subscribe(serviceName, (c, m) => {
+				IList<Node> nodes = this.GetNodes(serviceName);
 				action.Invoke(nodes);
 			});
 		}
