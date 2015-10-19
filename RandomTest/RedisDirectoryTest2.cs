@@ -27,7 +27,9 @@ namespace RandomTest
 			
 		}
 	}
-	
+	/// <summary>
+	/// 这个可以是实际使用的
+	/// </summary>
 	class NewRedis:Easy.Rpc.directory.IRedis
 	{
 		/// <summary>
