@@ -25,7 +25,7 @@ namespace RandomTest
 			
 			Task.Factory.StartNew(() => { 
 				for (int i = 0; i < 10000; i++) {
-					String result = ClientFactory.Invoke(new TestInvoker(null, null));
+					String result = ClientInvoker.Invoke(new TestInvoker(null, null));
 					System.Diagnostics.Debug.WriteLine(Thread.CurrentThread.ManagedThreadId);
 					Assert.AreEqual("ok", result);
 				}       

@@ -4,6 +4,7 @@ using System.Threading;
 using NUnit.Framework;
 using Easy.Rpc.LoadBalance;
 using Easy.Rpc.Cluster;
+using Easy.Rpc;
 namespace RandomTest
 {
 	[TestFixture]
