@@ -15,20 +15,16 @@ namespace Easy.Rpc.directory
 		readonly ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
 		readonly IList<Node> nodes = new List<Node>();
 		readonly IRedis redis;
-		readonly string name;
-		readonly string channel;
-		readonly string key;
+		readonly string serviceName;
 		
-		public RedisDirectory(IRedis redis, string name, string channel, string key)
+		public RedisDirectory(IRedis redis, string serviceName)
 		{
 			
 			this.redis = redis;
-			this.name = name;
-			this.channel = channel;
-			this.key = key;
+			this.serviceName = serviceName;
 			
-			this.nodes = this.redis.GetNodes(key);
-			this.redis.Subscribe(Refresh, this.channel, this.key);
+			this.nodes = new List<Node>(this.redis.GetNodes(serviceName));
+			this.redis.Subscribe(Refresh, serviceName);
 		}
 		/// <summary>
 		/// 目录名称
@@ -36,7 +32,7 @@ namespace Easy.Rpc.directory
 		/// <returns></returns>
 		public string Name()
 		{
-			return this.name;
+			return this.serviceName;
 		}
 
 		public IList<Node> GetNodes()
@@ -77,15 +73,13 @@ namespace Easy.Rpc.directory
 		/// <summary>
 		/// 根据redis的key查询Nodes列表
 		/// </summary>
-		/// <param name="key"></param>
+		/// <param name="serviceName">服务名称</param>
 		/// <returns></returns>
-		IList<Node> GetNodes(string key);
+		IList<Node> GetNodes(string serviceName);
 		/// <summary>
 		/// Reids Nodes变化通知订阅
 		/// </summary>
-		/// <param name="action"></param>
-		/// <param name="channel"></param>
-		/// <param name="key"></param>
-		void Subscribe(Action<IList<Node>> action, string channel, string key);
+		/// <param name="serviceName">服务名称</param>
+		void Subscribe(Action<IList<Node>> action, string serviceName);
 	}
 }
