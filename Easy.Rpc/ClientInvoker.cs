@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Easy.Rpc.Cluster;
 using Easy.Rpc.LoadBalance;
 using Easy.Rpc.Exception;
 using Easy.Rpc.directory;
 namespace Easy.Rpc
 {
+	/// <summary>
+	/// 远程调用
+	/// </summary>
 	public class ClientInvoker
 	{
 		ClientInvoker()
@@ -37,6 +41,14 @@ namespace Easy.Rpc
 			
 			return cluster.Invoke<T>(nodes, directoryAttri.Path, loadBalance, invoker);
 		}
+		
+		public static async Task<T> InvokeAsync<T>(IInvoker<T> invoker)
+		{
+			return await Task.Factory.StartNew(() => {
+				return Invoke(invoker);
+			});
+		}
+		
 		static ILoadBalance GetLoadBalance(LoadBalanceAttribute attri)
 		{
 			ILoadBalance loadBalance = null;

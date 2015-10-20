@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using Easy.Rpc.LoadBalance;
 namespace Easy.Rpc.Cluster
 {
-	/// <summary>
-	/// Description of ICluster.
-	/// </summary>
 	public interface ICluster
 	{
 		String Name();
