@@ -1,5 +1,9 @@
 ﻿
 using System;
+using Easy.Rpc;
+using Easy.Rpc.Cluster;
+using Easy.Rpc.LoadBalance;
+using Easy.Rpc.directory;
 
 namespace RandomTest.ServiceTest
 {
@@ -8,6 +12,9 @@ namespace RandomTest.ServiceTest
 	/// </summary>
 	public interface IBaseService
 	{
-		void Select();
+		[Directory("order", "/select")]
+		[Cluster(FailoverCluster.NAME)]
+		[LoadBalance(RoundRobinLoadBalance.NAME)]
+		String Select(string a, string b, InvokerContext context);
 	}
 }
