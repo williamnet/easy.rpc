@@ -2,7 +2,7 @@
 
 namespace Easy.Rpc
 {
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method)]
 	public class DirectoryAttribute:Attribute
 	{
 		public DirectoryAttribute(string directory, string path)

@@ -3,7 +3,7 @@ using System;
 
 namespace Easy.Rpc
 {
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method)]
 	public class LoadBalanceAttribute:Attribute
 	{
 		public LoadBalanceAttribute(String name)

@@ -4,7 +4,7 @@ using System;
 namespace Easy.Rpc
 {
 	
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method)]
 	public class ClusterAttribute:Attribute
 	{
 		public ClusterAttribute(string name)
