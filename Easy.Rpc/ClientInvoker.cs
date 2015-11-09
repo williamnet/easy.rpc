@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Easy.Public;
 using Easy.Rpc.Cluster;
 using Easy.Rpc.LoadBalance;
 using Easy.Rpc.Exception;
@@ -16,6 +17,23 @@ namespace Easy.Rpc
 		ClientInvoker()
 		{
 		}
+		
+		public static T Invoke<T>(IInvoker<T> invoker, InvokerContext invokerContext)
+		{
+			if (invokerContext.Directory == null) {
+				throw new PathNotFoundException("directory attri error");
+			}
+			
+			IList<Node> nodes = DirectoryFactory.GetDirectory(invokerContext.Directory.Directory).GetNodes();
+			
+			ICluster cluster = GetCluster(NullHelper.IfNull(invokerContext.Cluster, null).Name);
+			ILoadBalance loadBalance = GetLoadBalance(NullHelper.IfNull(invokerContext.LoadBalance, null).Name);
+			
+			
+			return cluster.Invoke<T>(nodes, invokerContext.Directory.Path, loadBalance, invoker);
+			
+		}
+		
 		public static T Invoke<T>(IInvoker<T> invoker)
 		{
 			Object[] attributes = invoker.GetType().GetCustomAttributes(true);
@@ -36,8 +54,8 @@ namespace Easy.Rpc
 				throw new NodeNoFoundException("node length is 0");
 			}
 			
-			ICluster cluster = GetCluster(clusterAttri);
-			ILoadBalance loadBalance = GetLoadBalance(loadBalanceAttri);
+			ICluster cluster = GetCluster(NullHelper.IfNull(clusterAttri, null).Name);
+			ILoadBalance loadBalance = GetLoadBalance(NullHelper.IfNull(loadBalanceAttri, null).Name);
 			
 			return cluster.Invoke<T>(nodes, directoryAttri.Path, loadBalance, invoker);
 		}
@@ -49,24 +67,24 @@ namespace Easy.Rpc
 			});
 		}
 		
-		static ILoadBalance GetLoadBalance(LoadBalanceAttribute attri)
+		static ILoadBalance GetLoadBalance(string loadBalanceName)
 		{
 			ILoadBalance loadBalance = null;
-			if (attri == null) {
+			if (string.IsNullOrEmpty(loadBalanceName)) {
 				loadBalance = LoadBalanceFactory.GetLoadBalance(RandomLoadBalance.NAME);
 			} else {
-				loadBalance = LoadBalanceFactory.GetLoadBalance(attri.Name);
+				loadBalance = LoadBalanceFactory.GetLoadBalance(loadBalanceName);
 			}
 			return loadBalance;
 		}
 		
-		static ICluster GetCluster(ClusterAttribute attri)
+		static ICluster GetCluster(string clusterName)
 		{
 			ICluster cluster = null;
-			if (attri == null) {
+			if (string.IsNullOrEmpty(clusterName)) {
 				cluster = ClusterFactory.GetCluser(FailoverCluster.NAME);
 			} else {
-				cluster = ClusterFactory.GetCluser(attri.Name);
+				cluster = ClusterFactory.GetCluser(clusterName);
 			}
 			return cluster;
 		}
