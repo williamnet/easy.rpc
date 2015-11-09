@@ -5,6 +5,8 @@ using System.Linq;
 using Castle.DynamicProxy;
 using Easy.Domain.ServiceFramework;
 using Easy.Rpc;
+using Easy.Rpc.Cluster;
+using Easy.Rpc.LoadBalance;
 
 namespace RandomTest.ServiceTest
 {
@@ -14,7 +16,10 @@ namespace RandomTest.ServiceTest
 	public class BaseService:IBaseService,IService
 	{
 		#region IBaseService implementation
-		public String Select(string a, string b, InvokerContext context)
+        [Directory("rpc", "/select")]
+        [Cluster(FailoverCluster.NAME)]
+        [LoadBalance(RoundRobinLoadBalance.NAME)]
+		public virtual String Select(string a, string b, InvokerContext context)
 		{
 			var queryMap = new Dictionary<String,Object>();
 			queryMap.Add("b", b);

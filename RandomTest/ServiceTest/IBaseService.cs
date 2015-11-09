@@ -12,9 +12,7 @@ namespace RandomTest.ServiceTest
 	/// </summary>
 	public interface IBaseService
 	{
-		[Directory("order", "/select")]
-		[Cluster(FailoverCluster.NAME)]
-		[LoadBalance(RoundRobinLoadBalance.NAME)]
+		
 		String Select(string a, string b, InvokerContext context);
 	}
 }
