@@ -60,6 +60,10 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="StackExchange.Redis, Version=1.0.316.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.0.488\lib\net45\StackExchange.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -85,6 +89,7 @@
     <Compile Include="Directory\IDirectory.cs" />
     <Compile Include="Directory\IRedis.cs" />
     <Compile Include="Directory\RedisDirectory.cs" />
+    <Compile Include="Directory\RedisServer.cs" />
     <Compile Include="Directory\StaticDirectory.cs" />
     <Compile Include="Exception\DirectoryNotFoundException.cs" />
     <Compile Include="Exception\NodeNoFoundException.cs" />
