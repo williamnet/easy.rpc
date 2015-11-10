@@ -28,7 +28,7 @@ namespace Easy.Rpc.Protocol
         }
 
 
-        public string JoinURL(Node node, string path)
+        public virtual string JoinURL(Node node, string path)
         {
             string url = node.Url + path;
 
@@ -54,7 +54,7 @@ namespace Easy.Rpc.Protocol
             return url;
         }
 
-        public T DoInvoke(Node node, string path)
+        public virtual T DoInvoke(Node node, string path)
         {
             string url = this.JoinURL(node, path);
 
