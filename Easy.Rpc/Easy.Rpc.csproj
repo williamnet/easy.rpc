@@ -83,6 +83,7 @@
     <Compile Include="Directory\Directory.cs" />
     <Compile Include="Directory\DirectoryFactory.cs" />
     <Compile Include="Directory\IDirectory.cs" />
+    <Compile Include="Directory\IRedis.cs" />
     <Compile Include="Directory\RedisDirectory.cs" />
     <Compile Include="Directory\StaticDirectory.cs" />
     <Compile Include="Exception\DirectoryNotFoundException.cs" />

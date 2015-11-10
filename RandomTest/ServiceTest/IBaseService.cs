@@ -7,9 +7,6 @@ using Easy.Rpc.directory;
 
 namespace RandomTest.ServiceTest
 {
-	/// <summary>
-	/// Description of IBaseService.
-	/// </summary>
 	public interface IBaseService
 	{
 

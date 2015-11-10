@@ -20,6 +20,8 @@ namespace RandomTest
 			var newRedis = new NewRedis("172.18.11.83:6379", 3);
 			
 			var directory = new RedisDirectory(newRedis, "OrderService");
+
+            
 			
 			var nodes = directory.GetNodes();
 			
