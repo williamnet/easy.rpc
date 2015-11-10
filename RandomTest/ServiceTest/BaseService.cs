@@ -20,7 +20,7 @@ namespace RandomTest.ServiceTest
         [Directory("rpc", "/select")]
         [Cluster(FailoverCluster.NAME)]
         [LoadBalance(RoundRobinLoadBalance.NAME)]
-        public virtual String Select(string a, string b, InvokerContext context)
+        public virtual String Select(string a, string b, InvokerContext context = null)
         {
             var queryMap = new Dictionary<String, Object>();
             queryMap.Add("b", b);

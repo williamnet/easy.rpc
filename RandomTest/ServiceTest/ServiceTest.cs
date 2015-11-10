@@ -25,7 +25,7 @@ namespace RandomTest.ServiceTest
         [Test]
         public void LoadTest()
         {
-            factory.Get<IBaseService>().Select("a", "b", null);
+            factory.Get<IBaseService>().Select("a", "b");
         }
     }
 }

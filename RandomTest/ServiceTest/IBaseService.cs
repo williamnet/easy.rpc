@@ -12,7 +12,7 @@ namespace RandomTest.ServiceTest
 	/// </summary>
 	public interface IBaseService
 	{
-		
-		String Select(string a, string b, InvokerContext context);
+
+        String Select(string a, string b, InvokerContext context = null);
 	}
 }
