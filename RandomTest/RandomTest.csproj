@@ -81,7 +81,6 @@
     <Compile Include="ServiceTest\BaseService.cs" />
     <Compile Include="ServiceTest\IBaseService.cs" />
     <Compile Include="ServiceTest\ServiceTest.cs" />
-    <Compile Include="ServiceTest\WebApiInvoker.cs" />
     <Compile Include="StaticDirectoryTest.cs" />
   </ItemGroup>
   <ItemGroup>

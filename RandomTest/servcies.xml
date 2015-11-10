@@ -3,5 +3,5 @@
   <service interface="RandomTest.ServiceTest.IBaseService,RandomTest"
            implementation="RandomTest.ServiceTest.BaseService,RandomTest"
            enable_interceptor="true"
-           interceptor="RandomTest.ServiceTest.RPCServiceInterceptor,RandomTest"/>
+           interceptor="Easy.Rpc.RPCServiceInterceptor,Easy.Rpc"/>
 </services>
