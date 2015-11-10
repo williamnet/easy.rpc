@@ -70,18 +70,14 @@
     <Reference Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AtomicPositiveIntegerTest.cs" />
     <Compile Include="FailoverClusterTest.cs" />
     <Compile Include="ForkingClusterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomBalanceTest.cs" />
     <Compile Include="RedisDirectoryTest.cs" />
     <Compile Include="RedisDirectoryTest2.cs" />
-    <Compile Include="RoundRobinLoadBalanceTest.cs" />
     <Compile Include="ServiceTest\BaseService.cs" />
     <Compile Include="ServiceTest\IBaseService.cs" />
     <Compile Include="ServiceTest\ServiceTest.cs" />
-    <Compile Include="StaticDirectoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Easy.Rpc\Easy.Rpc.csproj">

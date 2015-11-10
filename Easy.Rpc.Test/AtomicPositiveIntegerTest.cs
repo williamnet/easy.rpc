@@ -1,12 +1,12 @@
 ﻿using System;
-using NUnit.Framework;
 using Easy.Rpc.LoadBalance;
-namespace RandomTest
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+namespace Easy.Rpc.Test
 {
-	[TestFixture]
+	[TestClass]
 	public class AtomicPositiveIntegerTest
 	{
-		[Test]
+		[TestMethod]
 		public void MinValueTest()
 		{
 			var atomic =new AtomicPositiveInteger(Int32.MaxValue);
@@ -15,7 +15,7 @@ namespace RandomTest
 			
 			Assert.AreEqual(1,result);	
 		}
-		[Test]
+        [TestMethod]
 		public void MaxValueTest()
 		{
 			var atomic =new AtomicPositiveInteger(Int32.MaxValue -1);
@@ -27,7 +27,5 @@ namespace RandomTest
 			Assert.AreEqual(1,result);
 			
 		}
-		
-		
 	}
 }
