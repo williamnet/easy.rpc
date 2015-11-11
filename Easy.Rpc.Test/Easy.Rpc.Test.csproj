@@ -123,6 +123,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Services.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="testServiceDirectory.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -14,7 +14,7 @@ namespace RandomTest
 	[TestClass]
 	public class RedisDirectoryTest
 	{
-		[TestMethod]
+        //[TestMethod]
 		public void TestMethod()
 		{
 			var newRedis = new RedisServer("172.18.11.83:6379", 3);

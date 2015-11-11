@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.39541240.com/services">
-  <service interface="RandomTest.ServiceTest.IBaseService,RandomTest"
-           implementation="RandomTest.ServiceTest.BaseService,RandomTest"
-           enable_interceptor="true"
-           interceptor="Easy.Rpc.RPCServiceInterceptor,Easy.Rpc"/>
-</services>
