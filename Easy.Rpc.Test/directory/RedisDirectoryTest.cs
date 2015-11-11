@@ -1,12 +1,5 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Easy.Rpc.LoadBalance;
 using Easy.Rpc.directory;
-using Newtonsoft.Json;
-using StackExchange.Redis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RandomTest
@@ -25,5 +18,4 @@ namespace RandomTest
             Assert.IsTrue(nodes.Count > 0);
 		}
 	}
-	
 }
