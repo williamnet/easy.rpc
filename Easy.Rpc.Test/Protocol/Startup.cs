@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Easy.Rpc.Test.Protocol
 {
@@ -11,11 +12,9 @@ namespace Easy.Rpc.Test.Protocol
     {
         public void Configuration(IAppBuilder app)
         {
-            app.Use((context, task) =>
-            {
-                return context.Response.WriteAsync("ok");
-            });
-
+            HttpConfiguration config = new HttpConfiguration();
+            WebApiConfig.Register(config);
+            app.UseWebApi(config);
         }
     }
 }

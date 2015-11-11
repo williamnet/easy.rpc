@@ -9,5 +9,6 @@ namespace Easy.Rpc.Test.Protocol
     public interface ITestService
     {
         String GetStringResult(Easy.Rpc.InvokerContext context = null);
+        TestData GetData(TestData testData,string a, Easy.Rpc.InvokerContext context = null);
     }
 }

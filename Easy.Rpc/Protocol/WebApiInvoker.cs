@@ -62,7 +62,7 @@ namespace Easy.Rpc.Protocol
             HttpWebResponse response = null;
             if (this.bodyObject == null)
             {
-                response = request.Send();
+                response = request.Send(string.Empty);
             }
             else
             {

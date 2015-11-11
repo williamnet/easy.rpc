@@ -30,10 +30,31 @@ namespace Easy.Rpc.Test.Protocol
 
         }
         [TestMethod]
-        public void Test()
+        [Description("测试POST没有提交任务参数")]
+        public void PostWithoutDataTest()
         {
             string result = factory.Get<ITestService>().GetStringResult();
-            Assert.AreEqual("ok", result);
+            Assert.AreEqual("Ok", result);
+        }
+        [TestMethod]
+        public void PostDataTest()
+        {
+            var testData = new TestData()
+            {
+                Age = 100,
+                CreatDate = DateTime.Now,
+                IsOk = true,
+                Money = 23.93m,
+                Name = "X李"
+            };
+
+            var resultTestData = factory.Get<ITestService>().GetData(testData, "xiao");
+
+            Assert.AreEqual(testData.Age, resultTestData.Age);
+            Assert.AreEqual(testData.CreatDate.Hour, resultTestData.CreatDate.Hour);
+            Assert.AreEqual(testData.IsOk, resultTestData.IsOk);
+            Assert.AreEqual(testData.Money, resultTestData.Money);
+            Assert.AreEqual(testData.Name + "xiao", resultTestData.Name);
         }
 
         [ClassCleanup]
