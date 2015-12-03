@@ -9,7 +9,7 @@ namespace Easy.Rpc
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public abstract class ProtocolAttribute : Attribute
     {
-        public Type ContextType
+        public virtual Type ContextType
         {
             get;
             set;
