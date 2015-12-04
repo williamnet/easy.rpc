@@ -24,5 +24,10 @@ namespace Easy.Rpc.Cluster
 			}
 			throw new KeyNotFoundException("cluser" + name + " == null");
 		}
+
+        public static void Register(string name, Type type)
+        {
+            CLUSTERS.Add(name, type);
+        }
 	}
 }
