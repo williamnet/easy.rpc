@@ -29,15 +29,12 @@ namespace Easy.Rpc.directory
 		void InitNodes()
 		{
 			nodes.Clear();
-			
-			String nodeName = Path.GetFileNameWithoutExtension(this.file);
-			
 			var document = new XPathDocument(file);
 			XPathNavigator navigator = document.CreateNavigator();
 			XPathNodeIterator it = navigator.Select("Rpc/Providers/Provider");
 			
 			foreach (XPathNavigator navi in it) {
-				
+                string nodeName = navi.GetAttribute("Name", "");
 				Boolean available = Boolean.Parse(navi.GetAttribute("Available", ""));
 				Int32 weight = Int32.Parse(navi.GetAttribute("Weight", ""));
 				String url = navi.Value;
