@@ -17,13 +17,13 @@ namespace Easy.Rpc.directory
         readonly IRedis redis;
         readonly string serviceName;
 
-        public RedisDirectory(IRedis redis, string serviceName)
+        public RedisDirectory(IRedis redis, string serviceName,IList<Node> initNodes)
         {
 
             this.redis = redis;
             this.serviceName = serviceName;
 
-            this.nodes = new List<Node>(this.redis.GetNodes(serviceName));
+            this.nodes = initNodes;
             this.redis.Subscribe(Refresh, serviceName);
         }
         /// <summary>

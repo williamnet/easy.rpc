@@ -51,8 +51,9 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Easy.Public">
-      <HintPath>packages\Easy.Public.1.0.0.5\lib\net451\Easy.Public.dll</HintPath>
+    <Reference Include="Easy.Public, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Easy.Public.1.0.1.1\lib\net451\Easy.Public.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -88,7 +89,9 @@
     <Compile Include="Directory\DirectoryFactory.cs" />
     <Compile Include="Directory\IDirectory.cs" />
     <Compile Include="Directory\IRedis.cs" />
+    <Compile Include="Directory\MySelfInfo.cs" />
     <Compile Include="Directory\RedisDirectory.cs" />
+    <Compile Include="Directory\RedisDirectoryBuilder.cs" />
     <Compile Include="Directory\RedisServer.cs" />
     <Compile Include="Directory\StaticDirectory.cs" />
     <Compile Include="Exception\DirectoryNotFoundException.cs" />

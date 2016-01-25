@@ -101,7 +101,6 @@
   <ItemGroup>
     <Compile Include="AtomicPositiveIntegerTest.cs" />
     <Compile Include="directory\DirectoryFactoryTest.cs" />
-    <Compile Include="directory\RedisDirectoryTest.cs" />
     <Compile Include="directory\StaticDirectoryTest.cs" />
     <Compile Include="LoadBalance\RandomBalanceTest.cs" />
     <Compile Include="LoadBalance\RoundRobinLoadBalanceTest.cs" />
