@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Easy.Public.HttpRequestService;
-using Easy.Rpc.directory;
 using Easy.Rpc.LoadBalance;
 using Newtonsoft.Json;
 
-namespace Easy.Rpc.Directory
+namespace Easy.Rpc.directory
 {
     public class RedisDirectoryBuilder
     {
@@ -52,9 +49,15 @@ namespace Easy.Rpc.Directory
         {
             string url = string.Concat(this.RegisterUrl, PathAddRelation);
 
+            string providerDirectoryParams = string.Empty;
+            if(providerDirectory != null && providerDirectory.Length != 0)
+            {
+                providerDirectoryParams = string.Join(",", providerDirectory);
+            }
+
             StringBuilder data = new StringBuilder();
             data.AppendFormat("consumerDirectoryName={0}&", directoryName);
-            data.AppendFormat("providerDirectory={1}", string.Join(",", providerDirectory));
+            data.AppendFormat("providerDirectoryNames={0}", providerDirectoryParams);
 
             var request = HttpRequestClient.Request(url, "POST", false);
             request.ContentType = "application/x-www-form-urlencoded";
@@ -66,26 +69,30 @@ namespace Easy.Rpc.Directory
             var redis = new RedisServer(RedisUrl, DatabaseIndex);
             string url = string.Concat(RegisterUrl, PathPull);
 
-            IList<Task> tasklist = new List<Task>();
             foreach (var p in providerDirectory)
             {
-                Task t = new Task(() =>
+                Task.Factory.StartNew(() =>
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.Append("providerDirectory=" + p);
 
-                    var request = HttpRequestClient.Request(url, "POST", false);
-                    request.ContentType = "application/x-www-form-urlencoded";
-                    string result = request.Send(sb).GetBodyContent(true);
-
-                    IList<Node> nodes = JsonConvert.DeserializeObject<IList<Node>>(result);
+                    string result = string.Empty;
+                    try
+                    {
+                        var request = HttpRequestClient.Request(url, "POST", false);
+                        request.ContentType = "application/x-www-form-urlencoded";
+                        result = request.Send(sb).GetBodyContent(true);
+                    }
+                    catch { }
+                    IList<Node> nodes = new List<Node>(0);
+                    if (!string.IsNullOrWhiteSpace(result))
+                    {
+                        nodes = JsonConvert.DeserializeObject<IList<Node>>(result);
+                    }
                     var redisDirectory = new RedisDirectory(redis, p, nodes);
                     DirectoryFactory.Register(p, redisDirectory);
-
                 });
-                tasklist.Add(t);
             }
-            Task.WhenAll(tasklist);
         }
     }
 }

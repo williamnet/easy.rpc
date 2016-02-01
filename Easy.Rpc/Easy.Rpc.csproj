@@ -90,6 +90,7 @@
     <Compile Include="Directory\IDirectory.cs" />
     <Compile Include="Directory\IRedis.cs" />
     <Compile Include="Directory\MySelfInfo.cs" />
+    <Compile Include="Directory\NodeCacheHelper.cs" />
     <Compile Include="Directory\RedisDirectory.cs" />
     <Compile Include="Directory\RedisDirectoryBuilder.cs" />
     <Compile Include="Directory\RedisServer.cs" />
