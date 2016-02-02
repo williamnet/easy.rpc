@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Easy.Rpc.LoadBalance;
+using Easy.Rpc.Monitor;
 using Easy.Rpc.StatCollect;
+
 
 namespace Easy.Rpc
 {
@@ -18,36 +20,42 @@ namespace Easy.Rpc
         public T DoInvoke(Node node, string path)
         {
             string url = this.JoinURL(node, path);
-            var statModel = BeginCollect(node.ProviderName, node.Ip, url, path, DateTime.Now);
-
+            
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-
-            T result = ActualDoInvoke(node, path);
-
-            stopwatch.Stop();
-            this.EndCollect(statModel, stopwatch.ElapsedMilliseconds);
-
-            return result;
+            var requestTime = DateTime.Now;
+            var hasError = false;
+            try
+            {
+                T result = ActualDoInvoke(node, path);
+                return result;
+            }
+            catch (System.Exception e)
+            {
+                hasError = true;
+                throw e;
+            }
+            finally
+            {
+                if (!hasError)
+                {
+                    stopwatch.Stop();
+                    MonitorManager.Write(requestTime, this.BeginCollect(node.ProviderName, node.Ip, node.Url, path), stopwatch.ElapsedMilliseconds);
+                }
+            }
         }
 
-        private StatCollectModel BeginCollect(string serviceName,string ip,string apiUrl,string apiPath,DateTime requestTime)
+        private MonitorData BeginCollect(string serviceName, string ip, string apiUrl, string apiPath)
         {
-            var model = new StatCollectModel()
+            var monitorData = new MonitorData()
             {
                 ServiceName = serviceName,
                 Ip = ip,
                 ApiUrl = apiUrl,
                 ApiPath = apiPath,
-                RequestTime = requestTime
             };
-            return model;
+            return monitorData;
         }
-        private void EndCollect(StatCollectModel model,long responseTime)
-        {
-            model.ResponseTime = responseTime;
-        } 
-
         protected abstract T ActualDoInvoke(Node node, string path);
         public abstract string JoinURL(Node node, string path);
     }

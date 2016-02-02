@@ -100,6 +100,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AtomicPositiveIntegerTest.cs" />
+    <Compile Include="BaseInvokerTest.cs" />
     <Compile Include="directory\DirectoryFactoryTest.cs" />
     <Compile Include="directory\StaticDirectoryTest.cs" />
     <Compile Include="LoadBalance\RandomBalanceTest.cs" />
