@@ -37,9 +37,10 @@ namespace Easy.Rpc.directory
                 string nodeName = navi.GetAttribute("Name", "");
 				Boolean available = Boolean.Parse(navi.GetAttribute("Available", ""));
 				Int32 weight = Int32.Parse(navi.GetAttribute("Weight", ""));
+                string ip = navi.GetAttribute("Ip", "");
 				String url = navi.Value;
-				
-				var node = new Node(nodeName, url, weight, available);
+
+                var node = new Node(nodeName, url, weight, available, ip);
 				
 				nodes.Add(node);
 			}

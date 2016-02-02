@@ -104,6 +104,7 @@
     <Compile Include="directory\StaticDirectoryTest.cs" />
     <Compile Include="LoadBalance\RandomBalanceTest.cs" />
     <Compile Include="LoadBalance\RoundRobinLoadBalanceTest.cs" />
+    <Compile Include="MonitorManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\ITestService.cs" />
     <Compile Include="Protocol\Startup.cs" />
@@ -112,6 +113,8 @@
     <Compile Include="Protocol\TestService.cs" />
     <Compile Include="Protocol\WebApiConfig.cs" />
     <Compile Include="Protocol\WebApiTest.cs" />
+    <Compile Include="StatDataTest.cs" />
+    <Compile Include="ThreadTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Easy.Rpc\Easy.Rpc.csproj">
