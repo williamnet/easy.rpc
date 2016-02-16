@@ -11,6 +11,7 @@ namespace Easy.Rpc.Monitor
     {
         public string ServiceName { get; set; }
         public string Ip { get; set; }
+        public string BaseApiUrl { get; set; }
         public string ApiUrl { get; set; }
         public string ApiPath { get; set; }
 

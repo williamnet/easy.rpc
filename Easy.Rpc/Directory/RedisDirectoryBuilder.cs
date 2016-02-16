@@ -21,14 +21,14 @@ namespace Easy.Rpc.directory
             RedisUrl = redisUrl;
             DatabaseIndex = databaseIndex;
         }
-        public void Build(MySelfInfo myself, string[] usedService)
+        public void Build(MySelfInfo myself, string[] usedService = null, string[] apiList = null)
         {
-            this.RegisterMyself(myself);
+            this.RegisterMyself(myself, apiList);
             this.RegisterRelation(myself.Directory, usedService);
             this.Pull(usedService);
         }
 
-        private void RegisterMyself(MySelfInfo myself)
+        private void RegisterMyself(MySelfInfo myself, string[] apilist = null)
         {
             string url = string.Concat(this.RegisterUrl, PathRegister);
 
@@ -38,7 +38,11 @@ namespace Easy.Rpc.directory
             data.AppendFormat("ip={0}&", myself.Ip);
             data.AppendFormat("weight={0}&", myself.Weight);
             data.AppendFormat("status={0}&", myself.Status);
-            data.AppendFormat("description={0}", myself.Description);
+            data.AppendFormat("description={0}&", myself.Description);
+            if (apilist != null && apilist.Length > 0)
+            {
+                data.AppendFormat("apiList={0}", string.Join(",", apilist));
+            }
 
             var request = HttpRequestClient.Request(url, "POST", false);
             request.ContentType = "application/x-www-form-urlencoded";

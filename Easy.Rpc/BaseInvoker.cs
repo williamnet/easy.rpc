@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Easy.Rpc.LoadBalance;
 using Easy.Rpc.Monitor;
-using Easy.Rpc.StatCollect;
 
 
 namespace Easy.Rpc
@@ -40,12 +35,12 @@ namespace Easy.Rpc
                 if (!hasError)
                 {
                     stopwatch.Stop();
-                    MonitorManager.Write(requestTime, this.BeginCollect(node.ProviderName, node.Ip, node.Url, path), stopwatch.ElapsedMilliseconds);
+                    MonitorManager.Write(requestTime, this.BeginCollect(node.ProviderName, node.Ip, node.Url,url, path), stopwatch.ElapsedMilliseconds);
                 }
             }
         }
 
-        private MonitorData BeginCollect(string serviceName, string ip, string apiUrl, string apiPath)
+        private MonitorData BeginCollect(string serviceName, string ip,string baseApiUrl, string apiUrl, string apiPath)
         {
             var monitorData = new MonitorData()
             {
@@ -53,6 +48,7 @@ namespace Easy.Rpc
                 Ip = ip,
                 ApiUrl = apiUrl,
                 ApiPath = apiPath,
+                BaseApiUrl = baseApiUrl
             };
             return monitorData;
         }

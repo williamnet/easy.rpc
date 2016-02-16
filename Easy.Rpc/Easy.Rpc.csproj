@@ -91,7 +91,6 @@
     <Compile Include="Monitor\MonitorData.cs" />
     <Compile Include="Monitor\MonitorManager.cs" />
     <Compile Include="Monitor\StatData.cs" />
-    <Compile Include="StatCollect\StatCollectModel.cs" />
     <Compile Include="DirectoryContext.cs" />
     <Compile Include="Directory\Directory.cs" />
     <Compile Include="Directory\DirectoryFactory.cs" />

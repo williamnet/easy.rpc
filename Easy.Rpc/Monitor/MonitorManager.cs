@@ -52,13 +52,14 @@ namespace Easy.Rpc.Monitor
 
             ConcurrentDictionary<MonitorData, StatData> monitorData;
 
-            if(dataContainer.TryGetValue(requestTimeMinStr, out monitorData))
+            if(dataContainer.TryRemove(requestTimeMinStr, out monitorData))
             {
                 var collectDataList = new List<CollectorData>();
                 foreach (var item in monitorData)
                 {
                     var collectData = new CollectorData()
                     {
+                        BaseApiUrl = item.Key.BaseApiUrl,
                         ApiPath = item.Key.ApiPath,
                         ApiUrl = item.Key.ApiUrl,
                         Ip=item.Key.Ip,
