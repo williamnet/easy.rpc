@@ -92,7 +92,7 @@ namespace Easy.Rpc.Monitor
 
         private static void ActualWrite(DateTime requestTime, MonitorData data, Int64 responseTime)
         {
-            string requestTimeMinStr = requestTime.ToString("yyyyMMddHHmm");
+            string requestTimeMinStr = requestTime.ToString("yyyy-MM-dd HH:mm");
 
             ConcurrentDictionary<MonitorData, StatData> monitorData;
             if (dataContainer.TryGetValue(requestTimeMinStr, out monitorData))
