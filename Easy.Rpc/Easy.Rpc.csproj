@@ -87,6 +87,7 @@
     <Compile Include="Cluster\ICluster.cs" />
     <Compile Include="Monitor\CollectorData.cs" />
     <Compile Include="Monitor\FileSendCollectorData.cs" />
+    <Compile Include="Monitor\HttpSendCollectorData.cs" />
     <Compile Include="Monitor\ISendCollectorData.cs" />
     <Compile Include="Monitor\MonitorData.cs" />
     <Compile Include="Monitor\MonitorManager.cs" />

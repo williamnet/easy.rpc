@@ -18,7 +18,7 @@ namespace Easy.Rpc.Monitor
             }
             try
             {
-                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, collectorDataList[0].StatTime + ".txt");
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,  collectorDataList[0].StatTime + ".txt");
                 File.WriteAllText(path, JsonConvert.SerializeObject(collectorDataList), Encoding.UTF8);
             }
             catch { }
