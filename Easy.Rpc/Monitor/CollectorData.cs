@@ -27,7 +27,7 @@ namespace Easy.Rpc.Monitor
         /// <summary>
         /// 每分钟并发数
         /// </summary>
-        public Int64 Frequency;
+        public Int64 ResponseFrequency;
         /// <summary>
         /// 最大响应时间
         /// </summary>
@@ -45,8 +45,22 @@ namespace Easy.Rpc.Monitor
         /// </summary>
         public double AverageResponseTime;
         /// <summary>
+        /// 每分钟请求平均响应时间
+        /// </summary>
+        public double AverageRequestResponseTime;
+        /// <summary>
         /// 统计时间
         /// </summary>
         public string StatTime;
+        /// <summary>
+        /// 错误请求次数
+        /// </summary>
+        public long ErrorResponseFrquency;
+        /// <summary>
+        /// 请求次数
+        /// </summary>
+        public long RequestFrequency;
+
+        
     }
 }

@@ -5,33 +5,72 @@ namespace Easy.Rpc.Monitor
 {
     public class StatData
     {
-        private Int64 frequency;
-        private Int64 maxResponseTime;
-        private Int64 minResponseTime;
-        private Int64 totalResponseTime;
+        private long responseFrequency;
+        private long maxResponseTime;
+        private long minResponseTime;
+        private long totalResponseTime;
+        private long requestFrequency;
+        private long errorResponseFrequency;
+
         /// <summary>
-        /// 请求次数
+        /// 获得错误次数
         /// </summary>
-        public Int64 Frequency
+        public long ErrorResponseFrquency
         {
             get
             {
-                return Interlocked.Read(ref frequency);
+                return Interlocked.Read(ref errorResponseFrequency);
             }
         }
-        public void AddFrequency()
+        /// <summary>
+        /// 请求次数
+        /// </summary>
+        public long RequestFrequency
         {
-            Interlocked.Increment(ref frequency);
+            get
+            {
+                return Interlocked.Read(ref requestFrequency);
+            }
+        }
+        /// <summary>
+        /// 请求次数
+        /// </summary>
+        public long ResponseFrequency
+        {
+            get
+            {
+                return Interlocked.Read(ref responseFrequency);
+            }
+        }
+
+        public void AddErrorResponseFrequency()
+        {
+            Interlocked.Increment(ref errorResponseFrequency);
+        }
+
+        /// <summary>
+        /// 增加请求次数
+        /// </summary>
+        public void AddRequestFrequency()
+        {
+            Interlocked.Increment(ref requestFrequency);
+        }
+        /// <summary>
+        /// 增加响应次数
+        /// </summary>
+        public void AddResponseFrequency()
+        {
+            Interlocked.Increment(ref responseFrequency);
         }
         /// <summary>
         /// 更新响应时间
         /// </summary>
         /// <param name="responseTime"></param>
-        public void UpdateResponseTime(Int64 responseTime)
+        public void UpdateResponseTime(long responseTime)
         {
-            this.MaxResponseTime = responseTime;
-            this.MinResponseTime = responseTime;
-            this.TotalResponseTime = responseTime;
+            MaxResponseTime = responseTime;
+            MinResponseTime = responseTime;
+            TotalResponseTime = responseTime;
         }
         /// <summary>
         /// 平均响应时间
@@ -40,13 +79,23 @@ namespace Easy.Rpc.Monitor
         {
             get
             {
-                return this.totalResponseTime / this.frequency;
+                return totalResponseTime / responseFrequency;
+            }
+        }
+        /// <summary>
+        /// 请求平均响应时间
+        /// </summary>
+        public double AverageRequestResponseTime
+        {
+            get
+            {
+                return totalResponseTime / requestFrequency;
             }
         }
         /// <summary>
         /// 总响应时间
         /// </summary>
-        public Int64 TotalResponseTime
+        public long TotalResponseTime
         {
             get
             {
@@ -60,7 +109,7 @@ namespace Easy.Rpc.Monitor
         /// <summary>
         /// 最大响应时间
         /// </summary>
-        public Int64 MaxResponseTime
+        public long MaxResponseTime
         {
             get
             {
@@ -82,7 +131,7 @@ namespace Easy.Rpc.Monitor
         /// <summary>
         /// 最小响应时间
         /// </summary>
-        public Int64 MinResponseTime
+        public long MinResponseTime
         {
             get
             {

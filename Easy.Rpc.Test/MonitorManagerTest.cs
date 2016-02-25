@@ -57,7 +57,7 @@ namespace Easy.Rpc.Test
 
                         var requesttime = DateTime.Now;
                         int responseTime = new Random(Guid.NewGuid().GetHashCode()).Next(1, 1000);
-                        MonitorManager.Write(requesttime, motiList[m], responseTime);
+                        MonitorManager.ResponseStat(requesttime, motiList[m], responseTime, true);
                     });
                 }
             }

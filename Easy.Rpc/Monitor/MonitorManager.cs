@@ -44,8 +44,6 @@ namespace Easy.Rpc.Monitor
         {
             senderList.Add(sender);
         }
-
-
         private static IList<CollectorData> DataCollect(DateTime time)
         {
             string requestTimeMinStr = time.ToString("yyyyMMddHHmm");
@@ -62,14 +60,17 @@ namespace Easy.Rpc.Monitor
                         BaseApiUrl = item.Key.BaseApiUrl,
                         ApiPath = item.Key.ApiPath,
                         ApiUrl = item.Key.ApiUrl,
-                        Ip=item.Key.Ip,
-                        ServiceName= item.Key.ServiceName,
+                        Ip = item.Key.Ip,
+                        ServiceName = item.Key.ServiceName,
                         AverageResponseTime = item.Value.AverageResponseTime,
-                        Frequency = item.Value.Frequency,
+                        ResponseFrequency = item.Value.ResponseFrequency,
                         MaxResponseTime = item.Value.MaxResponseTime,
-                        MinResponseTime= item.Value.MinResponseTime,
+                        MinResponseTime = item.Value.MinResponseTime,
                         TotalResponseTime = item.Value.TotalResponseTime,
-                        StatTime = requestTimeMinStr
+                        StatTime = requestTimeMinStr,
+                        ErrorResponseFrquency = item.Value.ErrorResponseFrquency,
+                        RequestFrequency = item.Value.RequestFrequency,
+                        AverageRequestResponseTime = item.Value.AverageRequestResponseTime
                     };
 
                     collectDataList.Add(collectData);
@@ -78,19 +79,78 @@ namespace Easy.Rpc.Monitor
             }
             return new CollectorData[0];
         }
-
-        public static void Write(DateTime requestTime, MonitorData data, Int64 responseTime)
+        /// <summary>
+        /// 响应统计
+        /// </summary>
+        /// <param name="requestTime"></param>
+        /// <param name="data"></param>
+        /// <param name="responseTime"></param>
+        /// <param name="responseIsSuccess">请求是否成功</param>
+        public static void ResponseStat(DateTime requestTime, MonitorData data, Int64 responseTime,bool responseIsSuccess)
         {
             if(t.ThreadState != ThreadState.Aborted && t.ThreadState != ThreadState.Stopped)
             {
                 Task.Factory.StartNew(() =>
                 {
-                    ActualWrite(requestTime, data, responseTime);
+                    ActualResponseStat(requestTime, data, responseTime, responseIsSuccess);
                 });
             }
         }
-
-        private static void ActualWrite(DateTime requestTime, MonitorData data, Int64 responseTime)
+        /// <summary>
+        /// 请求统计
+        /// </summary>
+        /// <param name="requestTime"></param>
+        /// <param name="data"></param>
+        public static void RequestStat(DateTime requestTime, MonitorData data)
+        {
+            if (t.ThreadState != ThreadState.Aborted && t.ThreadState != ThreadState.Stopped)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    ActualRequestStat(requestTime, data);
+                });
+            }
+        }
+        /// <summary>
+        /// 请求统计
+        /// </summary>
+        /// <param name="requestTime"></param>
+        /// <param name="data"></param>
+        private static void ActualRequestStat(DateTime requestTime,MonitorData data)
+        {
+            string requestTimeMinStr = requestTime.ToString("yyyyMMddHHmm");
+            ConcurrentDictionary<MonitorData, StatData> monitorData;
+            if (dataContainer.TryGetValue(requestTimeMinStr, out monitorData))
+            {
+                StatData statData;
+                if (monitorData.TryGetValue(data, out statData))
+                {
+                    statData.AddRequestFrequency();
+                }
+                else
+                {
+                    statData = new StatData();
+                    statData.AddRequestFrequency();
+                    monitorData.TryAdd(data, statData);
+                }
+            }
+            else
+            {
+                monitorData = new ConcurrentDictionary<MonitorData, StatData>();
+                var statData = new StatData();
+                statData.AddRequestFrequency();
+                monitorData.TryAdd(data, statData);
+                dataContainer.TryAdd(requestTimeMinStr, monitorData);
+            }
+        }
+        /// <summary>
+        /// 响应统计
+        /// </summary>
+        /// <param name="requestTime"></param>
+        /// <param name="data"></param>
+        /// <param name="responseTime"></param>
+        /// <param name="hasError"></param>
+        private static void ActualResponseStat(DateTime requestTime, MonitorData data, Int64 responseTime,bool hasError)
         {
             string requestTimeMinStr = requestTime.ToString("yyyyMMddHHmm");
 
@@ -100,14 +160,22 @@ namespace Easy.Rpc.Monitor
                 StatData statData;
                 if (monitorData.TryGetValue(data, out statData))
                 {
-                    statData.AddFrequency();
+                    statData.AddResponseFrequency();
                     statData.UpdateResponseTime(responseTime);
+                    if (hasError)
+                    {
+                        statData.AddErrorResponseFrequency();
+                    }
                 }
                 else
                 {
                     statData = new StatData();
-                    statData.AddFrequency();
+                    statData.AddResponseFrequency();
                     statData.UpdateResponseTime(responseTime);
+                    if (hasError)
+                    {
+                        statData.AddErrorResponseFrequency();
+                    }
 
                     monitorData.TryAdd(data, statData);
                 }
@@ -117,10 +185,13 @@ namespace Easy.Rpc.Monitor
                 monitorData = new ConcurrentDictionary<MonitorData, StatData>();
 
                 var statData = new StatData();
-                statData.AddFrequency();
+                statData.AddResponseFrequency();
                 statData.UpdateResponseTime(responseTime);
+                if (hasError)
+                {
+                    statData.AddErrorResponseFrequency();
+                }
                 monitorData.TryAdd(data, statData);
-
                 dataContainer.TryAdd(requestTimeMinStr, monitorData);
             }
         }

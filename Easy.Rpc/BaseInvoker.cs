@@ -15,11 +15,9 @@ namespace Easy.Rpc
         public T DoInvoke(Node node, string path)
         {
             string url = this.JoinURL(node, path);
-            
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var requestTime = DateTime.Now;
-            var hasError = false;
+            MonitorManager.RequestStat(DateTime.Now, this.BeginCollect(node.ProviderName, node.Ip, node.Url, url, path));
+            Stopwatch sw = this.GetAndStart();
+            bool hasError = false;
             try
             {
                 T result = ActualDoInvoke(node, path);
@@ -32,12 +30,21 @@ namespace Easy.Rpc
             }
             finally
             {
-                if (!hasError)
-                {
-                    stopwatch.Stop();
-                    MonitorManager.Write(requestTime, this.BeginCollect(node.ProviderName, node.Ip, node.Url,url, path), stopwatch.ElapsedMilliseconds);
-                }
+                MonitorManager.ResponseStat(DateTime.Now, this.BeginCollect(node.ProviderName, node.Ip, node.Url, url, path), this.GetResultAndStop(sw), hasError);
             }
+        }
+
+        private Stopwatch GetAndStart()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            return stopwatch;
+        }
+
+        public long GetResultAndStop(Stopwatch stopwatch)
+        {
+            stopwatch.Stop();
+            return stopwatch.ElapsedMilliseconds;
         }
 
         private MonitorData BeginCollect(string serviceName, string ip,string baseApiUrl, string apiUrl, string apiPath)

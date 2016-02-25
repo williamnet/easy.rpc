@@ -17,13 +17,13 @@ namespace Easy.Rpc.Test
             {
                 Task.Factory.StartNew(() =>
                 {
-                    data.AddFrequency();
+                    data.AddResponseFrequency();
                 });
             }
 
             Thread.Sleep(5000);
 
-            Assert.AreEqual(10000, data.Frequency);
+            Assert.AreEqual(10000, data.ResponseFrequency);
         }
         [TestMethod]
         public void MaxResponseTimeTest()
