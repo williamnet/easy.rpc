@@ -79,6 +79,10 @@ namespace Easy.Rpc.Monitor
         {
             get
             {
+                if(responseFrequency == 0)
+                {
+                    return 0;
+                }
                 return totalResponseTime / responseFrequency;
             }
         }
@@ -89,6 +93,10 @@ namespace Easy.Rpc.Monitor
         {
             get
             {
+                if(requestFrequency == 0)
+                {
+                    return 0;
+                }
                 return totalResponseTime / requestFrequency;
             }
         }

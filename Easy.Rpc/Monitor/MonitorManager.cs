@@ -90,10 +90,7 @@ namespace Easy.Rpc.Monitor
         {
             if(t.ThreadState != ThreadState.Aborted && t.ThreadState != ThreadState.Stopped)
             {
-                Task.Factory.StartNew(() =>
-                {
-                    ActualResponseStat(requestTime, data, responseTime, responseIsSuccess);
-                });
+                ActualResponseStat(requestTime, data, responseTime, responseIsSuccess);
             }
         }
         /// <summary>
@@ -105,10 +102,7 @@ namespace Easy.Rpc.Monitor
         {
             if (t.ThreadState != ThreadState.Aborted && t.ThreadState != ThreadState.Stopped)
             {
-                Task.Factory.StartNew(() =>
-                {
-                    ActualRequestStat(requestTime, data);
-                });
+                ActualRequestStat(requestTime, data);
             }
         }
         /// <summary>

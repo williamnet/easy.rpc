@@ -27,7 +27,7 @@ namespace Easy.Rpc.Test
 
             var testInvoker = new TestInvoker();
 
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < 10000; i++)
             {
                 Task.Factory.StartNew(() => {
                     var r = new Random(Guid.NewGuid().GetHashCode());
