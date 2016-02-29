@@ -15,15 +15,12 @@ namespace Easy.Rpc
         public T DoInvoke(Node node, string path)
         {
             string url = this.JoinURL(node, path);
-            System.Diagnostics.Debug.WriteLine("request");
             MonitorManager.RequestStat(DateTime.Now, this.BeginCollect(node.ProviderName, node.Ip, node.Url, url, path));
             Stopwatch sw = this.GetAndStart();
             bool hasError = false;
             try
             {
                 T result = ActualDoInvoke(node, path);
-                System.Diagnostics.Debug.WriteLine("response");
-
                 return result;
             }
             catch (System.Exception e)
