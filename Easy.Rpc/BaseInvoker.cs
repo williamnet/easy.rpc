@@ -12,6 +12,12 @@ namespace Easy.Rpc
     /// <typeparam name="T"></typeparam>
     public abstract class BaseInvoker<T> : IInvoker<T>
     {
+        Func<BaseInvoker<T>, Node, string, T> func = null;
+        public BaseInvoker(Func<BaseInvoker<T>, Node , string , T> func)
+        {
+            this.func = func;
+        }
+
         public T DoInvoke(Node node, string path)
         {
             string url = this.JoinURL(node, path);
@@ -20,7 +26,7 @@ namespace Easy.Rpc
             bool hasError = false;
             try
             {
-                T result = ActualDoInvoke(node, path);
+                T result = this.func(this, node, path);
                 return result;
             }
             catch (System.Exception e)
@@ -59,7 +65,6 @@ namespace Easy.Rpc
             };
             return monitorData;
         }
-        protected abstract T ActualDoInvoke(Node node, string path);
         public abstract string JoinURL(Node node, string path);
     }
 }

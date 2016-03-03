@@ -25,7 +25,15 @@ namespace Easy.Rpc.Test
 
             var nodes = new Node[2] { node1, node2 };
 
-            var testInvoker = new TestInvoker();
+            var testInvoker = new TestInvoker((b, node, path) =>
+            {
+
+                var r = new Random(Guid.NewGuid().GetHashCode());
+
+                Thread.Sleep(r.Next(100, 1000));
+
+                return string.Empty;
+            });
 
             for (var i = 0; i < 10000; i++)
             {
@@ -41,18 +49,14 @@ namespace Easy.Rpc.Test
 
     public class TestInvoker : BaseInvoker<string>
     {
+        public TestInvoker(Func<BaseInvoker<string>, Node, string, string> func) : base(func)
+        {
+
+        }
+
         public override string JoinURL(Node node, string path)
         {
             return node.Url + path;
-        }
-
-        protected override string ActualDoInvoke(Node node, string path)
-        {
-            var r = new Random(Guid.NewGuid().GetHashCode());
-
-            Thread.Sleep(r.Next(100, 1000));
-
-            return string.Empty;
         }
     }
 }
