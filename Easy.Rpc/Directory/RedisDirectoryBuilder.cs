@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using Easy.Public.HttpRequestService;
+using Easy.Public.MyLog;
 using Easy.Rpc.LoadBalance;
 using Newtonsoft.Json;
 
@@ -43,10 +44,17 @@ namespace Easy.Rpc.directory
             {
                 data.AppendFormat("apiList={0}", string.Join(",", apilist));
             }
-
-            var request = HttpRequestClient.Request(url, "POST", false);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.Send(data).GetBodyContent(true);
+            try
+            {
+                var request = HttpRequestClient.Request(url, "POST", false);
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.Send(data).GetBodyContent(true);
+            }
+            catch(System.Exception e)
+            {
+                LogManager.Error("注册失败", e.Message);
+            }
+           
         }
 
         private void RegisterRelation(string directoryName, string[] providerDirectory)
@@ -63,9 +71,16 @@ namespace Easy.Rpc.directory
             data.AppendFormat("consumerDirectoryName={0}&", directoryName);
             data.AppendFormat("providerDirectoryNames={0}", providerDirectoryParams);
 
-            var request = HttpRequestClient.Request(url, "POST", false);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.Send(data).GetBodyContent(true);
+            try
+            {
+                var request = HttpRequestClient.Request(url, "POST", false);
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.Send(data).GetBodyContent(true);
+            }
+            catch(System.Exception e)
+            {
+                LogManager.Error("注册失败关系", e.Message);
+            }
         }
 
         private void Pull(string[] providerDirectory)
@@ -87,7 +102,10 @@ namespace Easy.Rpc.directory
                         request.ContentType = "application/x-www-form-urlencoded";
                         result = request.Send(sb).GetBodyContent(true);
                     }
-                    catch { }
+                    catch (System.Exception e)
+                    {
+                        LogManager.Info("拉取节点失败", e.Message);
+                    }
                     IList<Node> nodes = new List<Node>(0);
                     if (!string.IsNullOrWhiteSpace(result))
                     {
