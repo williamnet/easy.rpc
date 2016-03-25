@@ -28,7 +28,6 @@ namespace Easy.Rpc.directory
             this.RegisterRelation(myself.Directory, usedService);
             this.Pull(usedService);
         }
-
         private void RegisterMyself(MySelfInfo myself, string[] apilist = null)
         {
             string url = string.Concat(this.RegisterUrl, PathRegister);
@@ -56,7 +55,6 @@ namespace Easy.Rpc.directory
             }
            
         }
-
         private void RegisterRelation(string directoryName, string[] providerDirectory)
         {
             string url = string.Concat(this.RegisterUrl, PathAddRelation);
@@ -82,9 +80,12 @@ namespace Easy.Rpc.directory
                 LogManager.Error("注册失败关系", e.Message);
             }
         }
-
         private void Pull(string[] providerDirectory)
         {
+            if(providerDirectory == null || providerDirectory.Length == 0)
+            {
+                return;
+            }
             var redis = new RedisServer(RedisUrl, DatabaseIndex);
             string url = string.Concat(RegisterUrl, PathPull);
 
