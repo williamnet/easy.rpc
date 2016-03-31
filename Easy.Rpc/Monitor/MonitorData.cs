@@ -9,6 +9,14 @@ namespace Easy.Rpc.Monitor
 {
     public class MonitorData
     {
+        public MonitorData()
+        {
+            ServiceName = string.Empty;
+            Ip = string.Empty;
+            BaseApiUrl = string.Empty;
+            ApiUrl = string.Empty;
+            ApiPath = string.Empty;
+        }
         public string ServiceName { get; set; }
         public string Ip { get; set; }
         public string BaseApiUrl { get; set; }
@@ -17,7 +25,8 @@ namespace Easy.Rpc.Monitor
 
         public override int GetHashCode()
         {
-            return this.ApiUrl.ToUpper().GetHashCode();
+            string hashcode = this.ServiceName.ToUpper() + this.BaseApiUrl.ToUpper() + this.ApiPath.ToUpper();
+            return hashcode.GetHashCode();
         }
         public override bool Equals(object obj)
         {
@@ -31,7 +40,13 @@ namespace Easy.Rpc.Monitor
             }
 
             MonitorData d = (MonitorData)obj;
-            if (this.ApiUrl.ToUpper() == d.ApiUrl.ToUpper())
+            if (
+                this.ApiUrl.ToUpper() == d.ApiUrl.ToUpper()
+                && this.ServiceName.ToUpper() == d.ServiceName.ToUpper()
+                && this.Ip.ToUpper() == d.Ip.ToUpper()
+                && this.BaseApiUrl.ToUpper() == d.BaseApiUrl.ToUpper()
+                && this.ApiPath.ToUpper() == this.ApiPath.ToUpper()
+                )
             {
                 return true;
             }
