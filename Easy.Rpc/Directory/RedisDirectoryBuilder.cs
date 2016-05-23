@@ -15,12 +15,10 @@ namespace Easy.Rpc.directory
         public const string PathRegister = "/Address/Register";
         public readonly string RegisterUrl = "";
         public readonly string RedisUrl = "";
-        public readonly int DatabaseIndex = 0;
-        public RedisDirectoryBuilder(string registerUrl, string redisUrl, int databaseIndex)
+        public RedisDirectoryBuilder(string registerUrl, string redisUrl)
         {
             RegisterUrl = registerUrl;
             RedisUrl = redisUrl;
-            DatabaseIndex = databaseIndex;
         }
         public void Build(MySelfInfo myself, string[] usedService = null, string[] apiList = null)
         {
@@ -86,7 +84,7 @@ namespace Easy.Rpc.directory
             {
                 return;
             }
-            var redis = new RedisServer(RedisUrl, DatabaseIndex);
+            var redis = new RedisServer(RedisUrl);
             string url = string.Concat(RegisterUrl, PathPull);
 
             foreach (var p in providerDirectory)

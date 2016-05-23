@@ -3,18 +3,24 @@ using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
+using Easy.Public.MyLog;
 
 namespace Easy.Rpc.directory
 {
     public class RedisServer : IRedis
     {
         readonly ConnectionMultiplexer redis;
-        int databaseid = 0;
 
-        public RedisServer(string redisServer, int databaseId)
+        public RedisServer(string redisServer)
         {
-            redis = ConnectionMultiplexer.Connect(redisServer);
-            this.databaseid = databaseId;
+            try
+            {
+                redis = ConnectionMultiplexer.Connect(redisServer);
+            }
+            catch (System.Exception e)
+            {
+                LogManager.Error("Redis Connect Error", e.Message);
+            }
         }
         public void Subscribe(Action<IList<Node>> action, string serviceName)
         {
