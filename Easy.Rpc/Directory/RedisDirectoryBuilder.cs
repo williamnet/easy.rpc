@@ -89,30 +89,28 @@ namespace Easy.Rpc.directory
 
             foreach (var p in providerDirectory)
             {
-                Task.Factory.StartNew(() =>
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("providerDirectory=" + p);
 
-                    string result = string.Empty;
-                    try
-                    {
-                        var request = HttpRequestClient.Request(url, "POST", false);
-                        request.ContentType = "application/x-www-form-urlencoded";
-                        result = request.Send(sb).GetBodyContent(true);
-                    }
-                    catch (System.Exception e)
-                    {
-                        LogManager.Info("拉取节点失败", e.Message);
-                    }
-                    IList<Node> nodes = new List<Node>(0);
-                    if (!string.IsNullOrWhiteSpace(result))
-                    {
-                        nodes = JsonConvert.DeserializeObject<IList<Node>>(result);
-                    }
-                    var redisDirectory = new RedisDirectory(redis, p, nodes);
-                    DirectoryFactory.Register(p, redisDirectory);
-                });
+                StringBuilder sb = new StringBuilder();
+                sb.Append("providerDirectory=" + p);
+
+                string result = string.Empty;
+                try
+                {
+                    var request = HttpRequestClient.Request(url, "POST", false);
+                    request.ContentType = "application/x-www-form-urlencoded";
+                    result = request.Send(sb).GetBodyContent(true);
+                }
+                catch (System.Exception e)
+                {
+                    LogManager.Error("拉取节点失败", e.Message);
+                }
+                IList<Node> nodes = new List<Node>(0);
+                if (!string.IsNullOrWhiteSpace(result))
+                {
+                    nodes = JsonConvert.DeserializeObject<IList<Node>>(result);
+                }
+                var redisDirectory = new RedisDirectory(redis, p, nodes);
+                DirectoryFactory.Register(p, redisDirectory);
             }
         }
     }
