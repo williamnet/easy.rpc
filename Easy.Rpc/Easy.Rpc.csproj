@@ -51,8 +51,9 @@
       <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Easy.Public">
-      <HintPath>packages\Easy.Public.1.0.0.5\lib\net451\Easy.Public.dll</HintPath>
+    <Reference Include="Easy.Public, Version=1.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Easy.Public.1.0.2.4\lib\net451\Easy.Public.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -74,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseInvoker.cs" />
     <Compile Include="ClientInvoker.cs" />
     <Compile Include="ClusterAttribute.cs" />
     <Compile Include="ClusterContext.cs" />
@@ -83,12 +85,22 @@
     <Compile Include="Cluster\FailsafeCluster.cs" />
     <Compile Include="Cluster\ForkingCluster.cs" />
     <Compile Include="Cluster\ICluster.cs" />
+    <Compile Include="Monitor\CollectorData.cs" />
+    <Compile Include="Monitor\FileSendCollectorData.cs" />
+    <Compile Include="Monitor\HttpSendCollectorData.cs" />
+    <Compile Include="Monitor\ISendCollectorData.cs" />
+    <Compile Include="Monitor\MonitorData.cs" />
+    <Compile Include="Monitor\MonitorManager.cs" />
+    <Compile Include="Monitor\StatData.cs" />
     <Compile Include="DirectoryContext.cs" />
     <Compile Include="Directory\Directory.cs" />
     <Compile Include="Directory\DirectoryFactory.cs" />
     <Compile Include="Directory\IDirectory.cs" />
     <Compile Include="Directory\IRedis.cs" />
+    <Compile Include="Directory\MySelfInfo.cs" />
+    <Compile Include="Directory\NodeCacheHelper.cs" />
     <Compile Include="Directory\RedisDirectory.cs" />
+    <Compile Include="Directory\RedisDirectoryBuilder.cs" />
     <Compile Include="Directory\RedisServer.cs" />
     <Compile Include="Directory\StaticDirectory.cs" />
     <Compile Include="Exception\DirectoryNotFoundException.cs" />
@@ -109,6 +121,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyHelper.cs" />
     <Compile Include="ProtocolAttribute.cs" />
+    <Compile Include="Protocol\DefaultProtocolAttribute.cs" />
     <Compile Include="Protocol\IProtocol.cs" />
     <Compile Include="Protocol\WebApiInvoker.cs" />
     <Compile Include="Protocol\WebApiInvokerContext.cs" />

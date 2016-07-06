@@ -3,13 +3,19 @@ namespace Easy.Rpc.LoadBalance
 {
 	public class Node
 	{
-		public Node(string providerName, string url, int weight, bool isAvailable)
+		public Node(string providerName, string url, int weight, bool isAvailable,string ip)
 		{
 			this.ProviderName = providerName;
 			this.Url = url;
 			this.Weight = weight;
 			this.IsAvailable = isAvailable;
+            this.Ip = ip;
 		}
+
+        public string Ip
+        {
+            get; private set;
+        }
 		
 		public String ProviderName {
 			get;

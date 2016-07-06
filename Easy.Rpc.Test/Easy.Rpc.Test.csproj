@@ -43,8 +43,8 @@
       <HintPath>..\packages\Easy.Domain.2.0.0.4\lib\net451\Easy.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Easy.Public, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Easy.Public.1.0.0.5\lib\net451\Easy.Public.dll</HintPath>
+    <Reference Include="Easy.Public, Version=1.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Easy.Public.1.0.2.4\lib\net451\Easy.Public.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -100,11 +100,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AtomicPositiveIntegerTest.cs" />
+    <Compile Include="BaseInvokerTest.cs" />
     <Compile Include="directory\DirectoryFactoryTest.cs" />
-    <Compile Include="directory\RedisDirectoryTest.cs" />
     <Compile Include="directory\StaticDirectoryTest.cs" />
     <Compile Include="LoadBalance\RandomBalanceTest.cs" />
     <Compile Include="LoadBalance\RoundRobinLoadBalanceTest.cs" />
+    <Compile Include="MonitorDataTest.cs" />
+    <Compile Include="MonitorManagerTest.cs" />
+    <Compile Include="NodeLoadTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\ITestService.cs" />
     <Compile Include="Protocol\Startup.cs" />
@@ -113,6 +116,8 @@
     <Compile Include="Protocol\TestService.cs" />
     <Compile Include="Protocol\WebApiConfig.cs" />
     <Compile Include="Protocol\WebApiTest.cs" />
+    <Compile Include="StatDataTest.cs" />
+    <Compile Include="ThreadTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Easy.Rpc\Easy.Rpc.csproj">
@@ -131,6 +136,9 @@
     </None>
     <None Include="rpc.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="WechatService.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

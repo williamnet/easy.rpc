@@ -16,14 +16,21 @@ namespace Easy.Rpc.directory
         readonly IList<Node> nodes = new List<Node>();
         readonly IRedis redis;
         readonly string serviceName;
+        static readonly NodeCacheHelper helper = new NodeCacheHelper();
 
-        public RedisDirectory(IRedis redis, string serviceName)
+        public RedisDirectory(IRedis redis, string serviceName,IList<Node> initNodes)
         {
-
             this.redis = redis;
             this.serviceName = serviceName;
-
-            this.nodes = new List<Node>(this.redis.GetNodes(serviceName));
+            if (initNodes == null || initNodes.Count == 0)
+            {
+                this.nodes = helper.LoadLocal(serviceName);
+            }
+            else
+            {
+                this.nodes = initNodes;
+                helper.Save(initNodes, serviceName);
+            }
             this.redis.Subscribe(Refresh, serviceName);
         }
         /// <summary>
@@ -67,6 +74,7 @@ namespace Easy.Rpc.directory
                 {
                     nodes.Add(node);
                 }
+                helper.Save(newNodes, serviceName);
             }
             finally
             {
